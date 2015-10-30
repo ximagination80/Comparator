@@ -1,6 +1,7 @@
 package comparator
 
 import java.io.StringReader
+import java.util.regex.Pattern
 import javax.xml.parsers.DocumentBuilderFactory
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
@@ -12,6 +13,8 @@ trait ObjectComparator[T] {
 }
 
 object ObjectComparator {
+
+  val pattern = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
 
   object StringComparator extends ObjectComparator[String] {
     override def compare(expected: String, actual: String): Unit = {
@@ -70,18 +73,6 @@ object ObjectComparator {
   case class JsonObjects(expected: JsonNode, actual: JsonNode) extends ParseResult
   case class XMLObjects(expected: Document, actual: Document) extends ParseResult
   object NotEqualContentTypeObjects extends ParseResult
-
-  object JsonComparator extends ObjectComparator[JsonNode] {
-    override def compare(expected: JsonNode, actual: JsonNode): Unit = {
-      //TODO
-    }
-  }
-
-  object XMLComparator extends ObjectComparator[Document] {
-    override def compare(expected: Document, actual: Document): Unit = {
-      //TODO
-    }
-  }
 
   case class ComparisonError(msg: String) extends RuntimeException(msg)
   case class NotEqualError(msg: String) extends RuntimeException(msg)
