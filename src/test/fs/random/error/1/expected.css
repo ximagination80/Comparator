@@ -1,0 +1,130 @@
+
+
+
+div.resellersLogo {
+    background-color: #343435;
+}
+
+div.leftCol {
+    background-color: #343435;
+    border-right: 3px solid  #343435;
+}
+
+div.navigationPopover a:hover{
+    color: #343435;
+}
+
+/*--------------------Headers----------------------*/
+h1,h2,h3,h4{
+    color: #343435;
+}
+
+/*--------------------Inputs----------------------*/
+input:focus, select:focus, textarea:focus, option{
+    border-color: #343435 !important;
+    color:#343435
+}
+
+input.email:focus{
+    border-color: #343435 !important;
+}
+
+input.password:focus{
+    border-color: #343435 !important;
+}
+/*--------------------Links----------------------*/
+
+a.visitMain:hover{
+    border:1px solid #343435;
+    color: #343435;
+}
+
+a.leftMenuItem:hover{
+    color: #343435;
+}
+
+/*--------------------Buttons/Links----------------------*/
+
+button.button, a.button{
+    background-color: #343435;
+}
+
+button.toggle.active{
+    background-color: #343435;
+}
+
+button.radio.active{
+    background-color: #343435;
+}
+
+/*--------------------Popup----------------------*/
+
+a.popupButton:hover{
+    color: #343435;
+}
+
+/*--------------------Table----------------------*/
+
+table.list th.sorting_asc, th.sorting_desc{
+    color: #343435;
+}
+
+button.editButton:hover{
+    color: #343435;
+    background-color: #343435;
+    border-color: #343435;
+}
+
+button.removeButton:hover{
+    color: #343435;
+    background-color: #343435;
+}
+
+/*--------------------Paging----------------------*/
+
+ul.pagination li{
+    color: #343435 !important;
+}
+
+.pagination a:hover, .pagination .active a {
+    background-color: #343435;
+    border-color: #343435;
+}
+
+/*--------------------Labels----------------------*/
+label.req{
+    background-color: #343435;
+}
+
+
+/*--------------------repository.css----------------------*/
+button.checkbox.active{
+    background-color: #343435;
+}
+div.headerActions button:hover{
+    background-color: #343435;
+}
+
+div.highlightTr {
+    border-left: 4px solid #343435 !important;
+}
+
+div.rightCol div.fileDetails a.active{
+    color: #343435;
+    border-top: 6px solid #343435;
+}
+
+div.historyItem a{
+    color:  #343435;
+}
+
+
+/*--------------------theme_reseller.css----------------------*/
+button.button2{
+    border:2px solid #343435;
+    color:#343435;
+}
+
+button.button2:hover{
+    background-color: #343435 !important;
+}

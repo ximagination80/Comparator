@@ -23,7 +23,8 @@ object ObjectComparator {
           case XMLObjects(e, a) =>
             XMLComparator.compare(e, a)
 
-          case NotEqualContentTypeObjects => throw new NotEqualError(s"Content is not equal and can't be associate with template")
+          case NotEqualContentTypeObjects =>
+            throw new NotEqualError(s"Content is not equal and can't be associate with template")
         }
       }
     }
