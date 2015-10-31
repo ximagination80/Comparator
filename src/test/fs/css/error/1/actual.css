@@ -117,14 +117,3 @@ div.rightCol div.fileDetails a.active{
 div.historyItem a{
     color:  #343435;
 }
-
-
-/*--------------------theme_reseller.css----------------------*/
-button.button2{
-    border:2px solid #343435;
-    color:#343435;
-}
-
-button.button2:hover{
-    background-color: #343435 !important;
-}

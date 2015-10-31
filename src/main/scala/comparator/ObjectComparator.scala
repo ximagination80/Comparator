@@ -9,25 +9,37 @@ import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
 trait ObjectComparator[T] {
+  val skipTemplate = "p(.*)"
+  val pattern = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+
   def compare(expected: T, actual: T): Unit
 }
 
-object ObjectComparator {
+case class ComparisonError(msg: String) extends RuntimeException(msg)
 
-  val pattern = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+object ObjectComparator {
 
   object StringComparator extends ObjectComparator[String] {
     override def compare(expected: String, actual: String): Unit = {
       if (expected != actual) {
-        tryParse(expected, actual) match {
-          case JsonObjects(e, a) =>
-            JsonComparator.compare(e, a)
+        val parse = tryParse(expected, actual)
 
-          case XMLObjects(e, a) =>
-            XMLComparator.compare(e, a)
+        try {
+          parse match {
+            case JsonObjects(e, a) =>
+              JsonComparator.compare(e, a)
 
-          case NotEqualContentTypeObjects =>
-            throw new NotEqualError(s"Content is not equal and can't be associate with template")
+            case XMLObjects(e, a) =>
+              XMLComparator.compare(e, a)
+
+            case NotEqualContentTypeObjects =>
+              throw new ComparisonError(s"Content type is not equal and can't be associate with template")
+          }
+        } catch {
+          case e: ComparisonError =>
+            throw e
+          case e: Throwable =>
+            throw new ComparisonError(e.getMessage)
         }
       }
     }
@@ -55,6 +67,7 @@ object ObjectComparator {
 
   def asJson(v:String): Option[JsonNode] = {
     val mapper = new ObjectMapper()
+
     try Some(mapper.readTree(v)) catch {
       case e: Throwable => None
     }
@@ -73,7 +86,4 @@ object ObjectComparator {
   case class JsonObjects(expected: JsonNode, actual: JsonNode) extends ParseResult
   case class XMLObjects(expected: Document, actual: Document) extends ParseResult
   object NotEqualContentTypeObjects extends ParseResult
-
-  case class ComparisonError(msg: String) extends RuntimeException(msg)
-  case class NotEqualError(msg: String) extends RuntimeException(msg)
 }

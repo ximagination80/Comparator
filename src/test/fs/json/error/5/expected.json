@@ -8,20 +8,20 @@
     "owner" : "Reseller 1 Admin 1 User 1",
     "locked_by_account_id" : 7,
     "locked_by_account_name" : "Reseller 1 Admin 1 User 2",
-    "created_date" : "p(\\d{4}-\\d{2}-\\d{2})",
+    "created_date" : "2015-06-06",
     "modified_date" : "",
     "location" : [ {
       "folder_id" : 14,
       "parent_folder_id" : -1,
-      "folder_name" : "p(.*)"
+      "folder_name" : "global folder admin 1 [FOLDER 1] FOLDER_ID[14]"
     }, {
       "folder_id" : 15,
       "parent_folder_id" : 14,
-      "folder_name" : "p(.*)"
+      "folder_name" : "global folder user 1 [FOLDER 2 IN FOLDER 1] FOLDER_ID[15]"
     }, {
       "folder_id" : 16,
       "parent_folder_id" : 15,
-      "folder_name" : "p(.*)"
+      "folder_name" : "global folder user 1 [FOLDER 3 IN FOLDER 2] FOLDER_ID[16]"
     } ]
   }
 }

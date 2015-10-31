@@ -3,7 +3,9 @@ package comparator
 import java.util
 import java.util.regex.Pattern
 
-import com.fasterxml.jackson.databind.{ObjectMapper, JsonNode}
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.JsonNodeType._
+
 import scala.collection.JavaConversions._
 
 object JsonComparator extends ObjectComparator[JsonNode] {
@@ -15,105 +17,80 @@ object JsonComparator extends ObjectComparator[JsonNode] {
   }
 
   override def compare(expected: JsonNode, actual: JsonNode): Unit = {
-    itemCompare(expected,actual)
-  }
-
-  def compareNodeRecursive(exList: List[JsonNode],acList: List[JsonNode]): Unit = {
-    for ((expected, idx) <- exList.zipWithIndex) {
-      acList.lift(idx) match {
-        case Some(actual) => itemCompare(expected, actual)
-        case None => throw ArrayNotMatchException(s"Index with number $idx not found")
-      }
-    }
-
-    if (exList.length != acList.length){
-      throw ListLengthNotMatch(s"Expected ${exList.length} actual ${acList.length}")
-    }
-  }
-
-  def itemCompare(expected: JsonNode, actual: JsonNode): Unit = {
     if (expected.isObject) {
-      if (!actual.isObject) throw SchemaNotMatchException("Expected object but was " + actual.getNodeType)
+      if (!actual.isObject) throw ComparisonError("Expected object but was " + actual.getNodeType)
 
-      compareRecursive(expected.fields().convert, actual.fields().convert)
+      compareElementList(expected.fields().convert, actual.fields().convert)
     } else if (expected.isArray) {
-      if (!actual.isArray) throw SchemaNotMatchException("Expected array but was " + actual.getNodeType)
+      if (!actual.isArray) throw ComparisonError("Expected array but was " + actual.getNodeType)
 
-      import scala.collection.JavaConversions._
-      compareNodeRecursive(expected.elements().toList, actual.elements().toList)
+      compareNodeList(expected.elements().toList, actual.elements().toList)
     } else {
-      assertNodeEqual(expected, actual)
+      compareNodes(expected, actual)
     }
   }
 
-  def compareRecursive(expected: List[Element], real: List[Element]): Unit = {
-    if (expected.length != real.length) throw MissingPropertyFound( s"""
-           Expected keys| ${expected.map(_.name)}
-           Actual   keys| ${real.map(_.name)}
-         """)
+  def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
+    if (exp.length != act.length)
+      throw ComparisonError(s"Expected ${exp.length} actual ${act.length}")
 
-    for (e <- expected) {
-      real.find(aa => aa.name.eq(e.name)) match {
-        case Some(actual) => itemCompare(e.node, actual.node)
-        case None => throw JsonKeyMissingException(s"Property with name ${e.name} not found")
+    for ((expected, idx) <- exp.zipWithIndex) {
+      act.lift(idx) match {
+        case Some(actual) => compare(expected, actual)
+        case None => throw ComparisonError(s"Index with number $idx not found")
       }
     }
   }
 
-  import com.fasterxml.jackson.databind.node.JsonNodeType._
+  def compareElementList(exp: List[Element], act: List[Element]): Unit = {
+    if (exp.length != act.length) {
+      val props = exp.map(_.name).toSet -- act.map(_.name)
+      throw ComparisonError(s"Difference in properties. Need[$props]")
+    }
 
-  def assertNodeEqual(expectedValue: JsonNode, actualValue: JsonNode) = expectedValue.getNodeType == actualValue.getNodeType match {
-    case true =>
-      expectedValue.getNodeType match {
-        case ARRAY | BINARY | MISSING | POJO | OBJECT | NULL =>
-          throw new RuntimeException("Illegal State")
+    exp.foreach{ e=>
+      act.find(_.name == e.name) match {
+        case Some(actual) => compare(e.node, actual.node)
+        case None => throw ComparisonError(s"Property with name ${e.name} not found")
+      }
+    }
+  }
 
-        case BOOLEAN =>
-          if (!expectedValue.asBoolean().equals(actualValue.asBoolean()))
-            throw JsonPropertyNotMatchException(s"Property ${expectedValue.asText()} is not equal to ${actualValue.asText()}")
+  def compareNodes(exp: JsonNode, act: JsonNode) = {
+    if (exp.getNodeType != act.getNodeType) 
+      throw ComparisonError(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
-        case NUMBER =>
-          if (!expectedValue.asDouble().equals(actualValue.asDouble()))
-            throw JsonPropertyNotMatchException(s"Property ${expectedValue.asText()} is not equal to ${actualValue.asText()}")
+    exp.getNodeType match {
+      case BOOLEAN =>
+        if (exp.asBoolean() != act.asBoolean())
+          throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
-        case STRING =>
-          expectedValue.asText().equals("p(.*)") match {
-            case true=>
-            // ignore this record
+      case NUMBER =>
+        if (exp.asDouble() != act.asDouble())
+          throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
-            case false=>
-              val m = ObjectComparator.pattern.matcher(expectedValue.asText())
-              m.matches() match {
-                case true =>
-                  val matches: Boolean = compile(m.group(1)).matcher(actualValue.asText()).matches()
-                  if (!matches) {
-                    throw JsonPropertyNotMatchPatternException(
-                      s"""
-                       Property ${actualValue.asText()} should match pattern ${m.group(1)}
-                       as declared in template ${expectedValue.asText()}
-                     """)
-                  }
-
-                case false =>
-                  if (!expectedValue.asText().equals(actualValue.asText()))
-                    throw JsonPropertyNotMatchException(s"Property ${expectedValue.asText()} is not equal to ${actualValue.asText()}")
-              }
+      case STRING =>
+        if (exp.asText() != skipTemplate) {
+          val m = pattern.matcher(exp.asText())
+          if (m.matches()) {
+            val matches = compile(m.group(1)).matcher(act.asText()).matches()
+            if (!matches) {
+              throw ComparisonError(s"""
+                       Property ${act.asText()} should match pattern ${m.group(1)}
+                       as declared in template ${exp.asText()} """)
+            }
+          } else {
+            if (exp.asText() != act.asText())
+              throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
           }
-      }
-    case false => throw SchemaNotMatchException(s"Expected ${expectedValue.getNodeType} but was ${actualValue.getNodeType}")
+        }
+
+      case p@_ => 
+        throw new RuntimeException("Unexpected json property type. Type is " + p)
+    }
   }
 
-  def compile(pattern: String): Pattern = try {
-    Pattern.compile(pattern, Pattern.DOTALL)
-  } catch {
+  def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
     case e: Exception => throw new RuntimeException( s"""Illegal Pattern $pattern""")
   }
-
-  case class ListLengthNotMatch(msg: String) extends RuntimeException(msg)
-  case class JsonKeyMissingException(msg: String) extends RuntimeException(msg)
-  case class ArrayNotMatchException(msg: String) extends RuntimeException(msg)
-  case class JsonPropertyNotMatchException(msg: String) extends RuntimeException(msg)
-  case class JsonPropertyNotMatchPatternException(msg: String) extends RuntimeException(msg)
-  case class MissingPropertyFound(msg: String) extends RuntimeException(msg)
-  case class SchemaNotMatchException(msg: String) extends RuntimeException(msg)
 }
