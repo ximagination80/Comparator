@@ -18,8 +18,14 @@ case class ComparisonError(msg: String) extends RuntimeException(msg)
 object ObjectComparator {
 
   object StringComparator extends ObjectComparator[String] {
-    override def compare(expected: String, actual: String): Unit = {
+    override def compare(inputExpected: String, inputActual: String): Unit = {
+      val expected = inputExpected.trim
+      val actual = inputActual.trim
+
       if (expected != actual) {
+        if(expected.isEmpty || actual.isEmpty)
+          throw new ComparisonError("Content is not equal and can't be associate with json/xml. Unable to compare")
+
         val parse = tryParse(expected, actual)
 
         try {

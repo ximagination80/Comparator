@@ -14,16 +14,30 @@ trait Helper {
 
   def file(name: String): File = new File(resDir, name)
 
+  def toString(file: File): String = {
+    val s = Source.fromFile(file)
+    try {
+      s.mkString
+    } catch {
+      case e: Throwable =>
+        s.close()
+        throw e
+    }
+  }
+
   def compare(expected: String, actual: String) = {
-    val e = Source.fromFile(file(expected)).mkString
-    val a = Source.fromFile(file(actual)).mkString
+    val e = toString(file(expected))
+    val a = toString(file(actual))
 
     ObjectComparator.StringComparator.compare(e, a)
   }
 
   def compareJson(path: String) = compareType("json", path)
+
   def compareXml(path: String) = compareType("xml", path)
+
   def compareCss(path: String) = compareType("css", path)
+
   def compareTxt(path: String) = compareType("txt", path)
 
   def errorJson(n: Int, msg: String) = test(s"Json error $n") {
