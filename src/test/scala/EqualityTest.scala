@@ -13,12 +13,13 @@ class EqualityTest extends FunSuite with Matchers with Helper {
   okJson(4)
 
   errorJson(1,"Difference in properties. Need[Set(enabled, send_notifications_to)]")
-  errorJson(2,"Expected 3 actual 2")
+  errorJson(2,"Expected array length is 3 actual 2")
   errorJson(3,"Property with name response not found")
   errorJson(4,"Property with name error not found")
   errorJson(5,"Expected array but was OBJECT")
   errorJson(6,"Expected object but was ARRAY")
   errorJson(7,"Expected NUMBER but was STRING")
+  errorJson(8,"Property with name send_notifications_to not found")
 
   okXml(1)
   okXml(2)

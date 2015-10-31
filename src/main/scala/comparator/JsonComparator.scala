@@ -32,7 +32,7 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
   def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
     if (exp.length != act.length)
-      throw ComparisonError(s"Expected ${exp.length} actual ${act.length}")
+      throw ComparisonError(s"Expected array length is ${exp.length} actual ${act.length}")
 
     for ((expected, idx) <- exp.zipWithIndex) {
       act.lift(idx) match {
