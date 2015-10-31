@@ -38,12 +38,32 @@ trait Helper {
     }.msg shouldBe msg
   }
 
+  def errorCss(n: Int, msg: String) = test(s"Css error $n") {
+    intercept[ComparisonError] {
+      compareCss(s"/error/$n/")
+    }.msg shouldBe msg
+  }
+
+  def errorTxt(n: Int, msg: String) = test(s"Txt error $n") {
+    intercept[ComparisonError] {
+      compareTxt(s"/error/$n/")
+    }.msg shouldBe msg
+  }
+
   def okJson(n: Int) = test(s"Json ok $n") {
     compareJson(s"/ok/$n/")
   }
 
   def okXml(n: Int) = test(s"Xml ok $n") {
     compareXml(s"/ok/$n/")
+  }
+
+  def okCss(n: Int) = test(s"Css ok $n") {
+    compareCss(s"/ok/$n/")
+  }
+
+  def okTxt(n: Int) = test(s"Txt ok $n") {
+    compareTxt(s"/ok/$n/")
   }
 
   def compareType(tpe: String, path: String) =

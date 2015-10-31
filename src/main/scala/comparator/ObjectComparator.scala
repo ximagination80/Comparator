@@ -31,7 +31,7 @@ object ObjectComparator {
               XMLComparator.compare(e, a)
 
             case NotEqualContentTypeObjects =>
-              throw new ComparisonError(s"Content type is not equal and can't be associate with template")
+              throw new ComparisonError("Content is not equal and can't be associate with json/xml. Unable to compare")
           }
         } catch {
           case e: ComparisonError =>
