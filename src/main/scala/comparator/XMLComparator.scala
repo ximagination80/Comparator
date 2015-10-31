@@ -17,6 +17,8 @@ object XMLComparator extends ObjectComparator[Node] {
         throw new ComparisonError(s"Additional attributes found in actual document for node ${act.getNodeName}")
     }
 
+    StringValueComparator.compare(exp.getNodeValue, act.getNodeValue)
+
     if (exp.hasChildNodes){
       if (!act.hasChildNodes) throw new ComparisonError("Child nodes not found")
 

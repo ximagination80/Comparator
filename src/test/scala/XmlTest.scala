@@ -16,7 +16,9 @@ class XmlTest extends FunSuite with Matchers with Helper {
     11 -> "Child nodes not found",
     12 -> "Attributes length not match. Missing property [Set(imagex)]",
     13 -> "Child nodes length not equals.",
-    14 -> "Attributes length not match. Found unexpected property [Set(gender1)]"
+    14 -> "Attributes length not match. Found unexpected property [Set(gender1)]",
+    15 -> "Property Large should match pattern [large]+",
+    16 -> "Property Red is not equal to red"
   ).map((e) => errorXml(e._1, e._2))
 
   (1 to 2) map okXml

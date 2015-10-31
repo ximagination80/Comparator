@@ -97,7 +97,7 @@ object StringValueComparator {
         case true =>
           val matches = compile(m.group(1)).matcher(act).matches()
           if (!matches) throw ComparisonError(
-            s"Property $act should match pattern ${m.group(1)} as declared in template $exp")
+            s"Property $act should match pattern ${m.group(1)}")
 
         case false =>
           throw ComparisonError(s"Property $exp is not equal to $act")

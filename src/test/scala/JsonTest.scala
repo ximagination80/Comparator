@@ -13,7 +13,7 @@ class JsonTest extends FunSuite with Matchers with Helper {
     8 -> "Property with name send_notifications_to not found",
     9 -> "Property false is not equal to true",
     10 -> "Property 10.11 is not equal to 10.1",
-    11 -> "Property abs should match pattern \\d+ as declared in template p(\\d+)"
+    11 -> "Property abs should match pattern \\d+"
   ).map((e) => errorJson(e._1, e._2))
 
   (1 to 4) map okJson
