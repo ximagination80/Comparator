@@ -40,7 +40,7 @@ object JsonComparator extends ObjectComparator[JsonNode] {
                          act: List[JEntry[String, JsonNode]]): Unit = {
     if (exp.length != act.length) {
       val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
-      throw ComparisonError(s"Difference in properties. Need[$props]")
+      throw ComparisonError(s"Difference in properties or count. Need[$props]")
     }
 
     exp.foreach{ e=>

@@ -3,7 +3,7 @@ import org.scalatest.{Matchers, FunSuite}
 class JsonTest extends FunSuite with Matchers with Helper {
 
   Seq(
-    1 -> "Difference in properties. Need[Set(enabled, send_notifications_to)]",
+    1 -> "Difference in properties or count. Need[Set(enabled, send_notifications_to)]",
     2 -> "Expected array length is 3 actual 2",
     3 -> "Property with name response not found",
     4 -> "Property with name error not found",
