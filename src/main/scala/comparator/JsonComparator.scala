@@ -10,18 +10,17 @@ import scala.collection.JavaConversions._
 
 object JsonComparator extends ObjectComparator[JsonNode] {
 
+  override def compare(exp: JsonNode, act: JsonNode): Unit = {
+    if (exp.isObject) {
+      if (!act.isObject) throw ComparisonError("Expected object but was " + act.getNodeType)
 
-  override def compare(expected: JsonNode, actual: JsonNode): Unit = {
-    if (expected.isObject) {
-      if (!actual.isObject) throw ComparisonError("Expected object but was " + actual.getNodeType)
+      compareElementList(exp.fields().toList, act.fields().toList)
+    } else if (exp.isArray) {
+      if (!act.isArray) throw ComparisonError("Expected array but was " + act.getNodeType)
 
-      compareElementList(expected.fields().toList, actual.fields().toList)
-    } else if (expected.isArray) {
-      if (!actual.isArray) throw ComparisonError("Expected array but was " + actual.getNodeType)
-
-      compareNodeList(expected.elements().toList, actual.elements().toList)
+      compareNodeList(exp.elements().toList, act.elements().toList)
     } else {
-      compareNodes(expected, actual)
+      compareNodes(exp, act)
     }
   }
 
@@ -31,7 +30,7 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
     for ((expected, idx) <- exp.zipWithIndex) {
       act.lift(idx) match {
-        case Some(actual) => compare(expected, actual)
+        case Some(a) => compare(expected, a)
         case None => throw ComparisonError(s"Index with number $idx not found")
       }
     }
@@ -46,14 +45,14 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
     exp.foreach{ e=>
       act.find(_.getKey == e.getKey) match {
-        case Some(actual) => compare(e.getValue, actual.getValue)
+        case Some(a) => compare(e.getValue, a.getValue)
         case None => throw ComparisonError(s"Property with name ${e.getKey} not found")
       }
     }
   }
 
   def compareNodes(exp: JsonNode, act: JsonNode) = {
-    if (exp.getNodeType != act.getNodeType) 
+    if (exp.getNodeType != act.getNodeType)
       throw ComparisonError(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
     exp.getNodeType match {
@@ -66,20 +65,19 @@ object JsonComparator extends ObjectComparator[JsonNode] {
           throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case STRING =>
-        if (exp.asText() != skipTemplate) {
-          val m = pattern.matcher(exp.asText())
-          if (m.matches()) {
-            val matches = compile(m.group(1)).matcher(act.asText()).matches()
-            if (!matches) {
-              throw ComparisonError(s"Property ${act.asText()} should match pattern ${m.group(1)} as declared in template ${exp.asText()}")
-            }
-          } else {
-            if (exp.asText() != act.asText())
+        if (exp.asText() != act.asText() && exp.asText() != any) {
+          val m = patternExtractor.matcher(exp.asText())
+          m.matches() match {
+            case true =>
+              val matches = compile(m.group(1)).matcher(act.asText()).matches()
+              if (!matches) throw ComparisonError(
+                s"Property ${act.asText()} should match pattern ${m.group(1)} as declared in template ${exp.asText()}")
+
+            case false =>
               throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
           }
         }
-
-      case p@_ => 
+      case p@_ =>
         throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
   }

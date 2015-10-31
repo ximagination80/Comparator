@@ -9,8 +9,8 @@ import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
 trait ObjectComparator[T] {
-  val skipTemplate = "p(.*)"
-  val pattern = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+  val any = "p(.*)"
+  val patternExtractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
 
   def compare(expected: T, actual: T): Unit
 }
