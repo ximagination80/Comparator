@@ -2,31 +2,33 @@ import java.io.File
 
 import comparator.{ComparisonError, ObjectComparator}
 import org.scalatest.{FunSuite, Matchers}
-
 import scala.io.Source
 
 class EqualityTest extends FunSuite with Matchers with Helper {
 
-  okJson(1)
-  okJson(2)
-  okJson(3)
-  okJson(4)
+  (1 to 4) map okJson
 
-  errorJson(1,"Difference in properties. Need[Set(enabled, send_notifications_to)]")
-  errorJson(2,"Expected array length is 3 actual 2")
-  errorJson(3,"Property with name response not found")
-  errorJson(4,"Property with name error not found")
-  errorJson(5,"Expected array but was OBJECT")
-  errorJson(6,"Expected object but was ARRAY")
-  errorJson(7,"Expected NUMBER but was STRING")
-  errorJson(8,"Property with name send_notifications_to not found")
+  Seq (
+    1 -> "Difference in properties. Need[Set(enabled, send_notifications_to)]",
+    2 -> "Expected array length is 3 actual 2",
+    3 -> "Property with name response not found",
+    4 -> "Property with name error not found",
+    5 -> "Expected array but was OBJECT",
+    6 -> "Expected object but was ARRAY",
+    7 -> "Expected NUMBER but was STRING",
+    8 -> "Property with name send_notifications_to not found",
+    9 -> "Property false is not equal to true",
+    10 -> "Property 10.11 is not equal to 10.1",
+    11 -> "Property abs should match pattern \\d+ as declared in template p(\\d+)"
+  ).map((e) => errorJson(e._1, e._2))
 
-  okXml(1)
-  okXml(2)
-  
-  errorXml(1,"")
-  errorXml(2,"")
-  
+  (1 to 2) map okXml
+
+  Seq (
+    1 -> "Difference in properties. Need[Set(enabled, send_notifications_to)]",
+    2 -> "Expected array length is 3 actual 2"
+  ).map((e) => errorXml(e._1, e._2))
+
   /*
     Css
    */

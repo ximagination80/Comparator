@@ -1,6 +1,6 @@
 package comparator
 
-import java.util
+import java.util.Map.{Entry => JEntry}
 import java.util.regex.Pattern
 
 import com.fasterxml.jackson.databind.JsonNode
@@ -10,17 +10,12 @@ import scala.collection.JavaConversions._
 
 object JsonComparator extends ObjectComparator[JsonNode] {
 
-  case class Element(name: String, node: JsonNode)
-
-  implicit class toScalaElement(itr: util.Iterator[java.util.Map.Entry[java.lang.String, JsonNode]]) {
-    def convert: List[Element] = itr.toList.map(e => Element(e.getKey, e.getValue))
-  }
 
   override def compare(expected: JsonNode, actual: JsonNode): Unit = {
     if (expected.isObject) {
       if (!actual.isObject) throw ComparisonError("Expected object but was " + actual.getNodeType)
 
-      compareElementList(expected.fields().convert, actual.fields().convert)
+      compareElementList(expected.fields().toList, actual.fields().toList)
     } else if (expected.isArray) {
       if (!actual.isArray) throw ComparisonError("Expected array but was " + actual.getNodeType)
 
@@ -42,16 +37,17 @@ object JsonComparator extends ObjectComparator[JsonNode] {
     }
   }
 
-  def compareElementList(exp: List[Element], act: List[Element]): Unit = {
+  def compareElementList(exp: List[JEntry[String, JsonNode]],
+                         act: List[JEntry[String, JsonNode]]): Unit = {
     if (exp.length != act.length) {
-      val props = exp.map(_.name).toSet -- act.map(_.name)
+      val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
       throw ComparisonError(s"Difference in properties. Need[$props]")
     }
 
     exp.foreach{ e=>
-      act.find(_.name == e.name) match {
-        case Some(actual) => compare(e.node, actual.node)
-        case None => throw ComparisonError(s"Property with name ${e.name} not found")
+      act.find(_.getKey == e.getKey) match {
+        case Some(actual) => compare(e.getValue, actual.getValue)
+        case None => throw ComparisonError(s"Property with name ${e.getKey} not found")
       }
     }
   }
@@ -75,9 +71,7 @@ object JsonComparator extends ObjectComparator[JsonNode] {
           if (m.matches()) {
             val matches = compile(m.group(1)).matcher(act.asText()).matches()
             if (!matches) {
-              throw ComparisonError(s"""
-                       Property ${act.asText()} should match pattern ${m.group(1)}
-                       as declared in template ${exp.asText()} """)
+              throw ComparisonError(s"Property ${act.asText()} should match pattern ${m.group(1)} as declared in template ${exp.asText()}")
             }
           } else {
             if (exp.asText() != act.asText())
@@ -91,6 +85,6 @@ object JsonComparator extends ObjectComparator[JsonNode] {
   }
 
   def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
-    case e: Exception => throw new RuntimeException( s"""Illegal Pattern $pattern""")
+    case e: Exception => throw new RuntimeException( s"Illegal Pattern $pattern")
   }
 }
