@@ -5,13 +5,11 @@ import java.util.regex.Pattern
 import javax.xml.parsers.DocumentBuilderFactory
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
+import comparator.JsonComparator._
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
 trait ObjectComparator[T] {
-  val any = "p(.*)"
-  val patternExtractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
-
   def compare(expected: T, actual: T): Unit
 }
 
@@ -86,4 +84,24 @@ object ObjectComparator {
   case class JsonObjects(expected: JsonNode, actual: JsonNode) extends ParseResult
   case class XMLObjects(expected: Document, actual: Document) extends ParseResult
   object NotEqualContentTypeObjects extends ParseResult
+}
+
+object StringValueComparator {
+  val any = "p(.*)"
+  val patternExtractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+
+  def compare(exp: String, act: String):Unit={
+    if (exp != act && exp != any) {
+      val m = patternExtractor.matcher(exp)
+      m.matches() match {
+        case true =>
+          val matches = compile(m.group(1)).matcher(act).matches()
+          if (!matches) throw ComparisonError(
+            s"Property $act should match pattern ${m.group(1)} as declared in template $exp")
+
+        case false =>
+          throw ComparisonError(s"Property $exp is not equal to $act")
+      }
+    }
+  }
 }

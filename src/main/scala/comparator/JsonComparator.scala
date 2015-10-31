@@ -65,18 +65,8 @@ object JsonComparator extends ObjectComparator[JsonNode] {
           throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case STRING =>
-        if (exp.asText() != act.asText() && exp.asText() != any) {
-          val m = patternExtractor.matcher(exp.asText())
-          m.matches() match {
-            case true =>
-              val matches = compile(m.group(1)).matcher(act.asText()).matches()
-              if (!matches) throw ComparisonError(
-                s"Property ${act.asText()} should match pattern ${m.group(1)} as declared in template ${exp.asText()}")
+        StringValueComparator.compare(exp.asText(),act.asText())
 
-            case false =>
-              throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
-          }
-        }
       case p@_ =>
         throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
