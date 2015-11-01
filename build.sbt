@@ -11,3 +11,11 @@ libraryDependencies ++= Seq(
 )
 
 coverageEnabled := true
+
+coverageMinimum := 70
+
+coverageFailOnMinimum := false
+
+publishArtifact in Test := false
+
+parallelExecution in Test := false
