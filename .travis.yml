@@ -20,11 +20,13 @@ jdk:
   - oraclejdk8
 
 script:
-  - "sbt clean ++$TRAVIS_SCALA_VERSION coverage test"
+  - sbt ++$TRAVIS_SCALA_VERSION clean "project Comparator" coverage test
 
   # Trick to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
 
 after_success:
-  - sbt coverageReport
+  - sbt "project Comparator" coverageReport
+  - sbt "project Comparator" codacyCoverage
+  - sbt "project Comparator" coveralls
 
