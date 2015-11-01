@@ -4,6 +4,7 @@ sudo: false # Enable new travis container-based infrastructure
 language: scala
 
 scala:
+   - 2.9.3
    - 2.10.5
    - 2.11.7
 
@@ -17,6 +18,10 @@ notifications:
       - ximagination80@gmail.com
 
 jdk:
+  - openjdk6
+  - openjdk7
+  - openjdk8
+  - oraclejdk6
   - oraclejdk7
   - oraclejdk8
 

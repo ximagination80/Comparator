@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/ximagination80/Comparator.png)](https://travis-ci.org/ximagination80/Comparator)
 [![codecov.io](https://codecov.io/github/ximagination80/Comparator/coverage.svg?branch=master)](https://codecov.io/github/ximagination80/Comparator?branch=master)
 
-# Comparator XML/Json template comparator
+# Xml,Json template comparator
 
 Usage:
 
@@ -18,6 +18,32 @@ Usage:
 ```
   match
 
+```scala
+  import ObjectComparator._
+
+  StringComparator.compare(
+  """
+    {"name":"p([a-z]+)","date":"2015-11-01"}
+  """,
+  """
+    {"name":"imagination","date":"2015-11-01"}
+  """)
+```
+  match only 2015-11-01 value
+
+```scala
+  import ObjectComparator._
+
+  StringComparator.compare(
+  """
+    {"name":"p([a-z]+)","date":"p(.*)"}
+  """,
+  """
+    {"name":"imagination","date":"blah or 01-01-2015"}
+  """)
+```
+  match any date or string
+
 
 ```scala
   import ObjectComparator._
@@ -27,10 +53,10 @@ Usage:
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
   """
-    {"name":"Imagination","date":"01-01-2015"}
+    {"name":"imagination","date":"01-01-2015"}
   """)
 ```
-  not match
+  not match because of incorrect "date" field template
 
 
 
