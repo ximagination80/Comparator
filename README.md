@@ -1,5 +1,7 @@
 # Comparator
 
+https://travis-ci.org/ximagination80/Comparator.svg?branch=master
+
 Comparator module.
 
 Usage:
@@ -15,6 +17,9 @@ Usage:
   """)
 
   match
+
+
+
 
 
 
