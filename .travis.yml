@@ -4,6 +4,7 @@ sudo: false # Enable new travis container-based infrastructure
 language: scala
 
 scala:
+   - 2.10.5
    - 2.11.7
 
 branches:
@@ -22,5 +23,5 @@ jdk:
 script:
   - "sbt ++$TRAVIS_SCALA_VERSION clean coverage test"
 
-script:
-  - "sbt reportScoverage"
+after_success:
+  - sbt "project comparator" coverageReport
