@@ -15,7 +15,10 @@ jdk:
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
-  - sbt ++$TRAVIS_SCALA_VERSION coverageReport
 
   # Trick to avoid unnecessary cache updates
   - find $HOME/.sbt -name "*.lock" | xargs rm
+
+after_success:
+  - sbt "project Comparator" coverageReport
+
