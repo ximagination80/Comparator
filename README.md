@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/ximagination80/Comparator.png)](https://travis-ci.org/ximagination80/Comparator)
 [![Coverage Status](https://coveralls.io/repos/ximagination80/Comparator/badge.svg?branch=master&service=github)](https://coveralls.io/github/ximagination80/Comparator?branch=master)
 
+| [https://codecov.io/][1] | [@codecov][2] | [hello@codecov.io][3] |
+| ------------------------ | ------------- | --------------------- |
+
 # Comparator XML/Json template comparator
 
 Usage:
