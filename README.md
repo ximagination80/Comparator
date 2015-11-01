@@ -1,6 +1,7 @@
 # Comparator
 
-https://travis-ci.org/ximagination80/Comparator.svg?branch=master
+We use [Travis CI](http://travis-ci.org/) to verify the build:
+[![Build Status](https://travis-ci.org/ximagination80/Comparator.png)](https://travis-ci.org/ximagination80/Comparator.svg?branch=master)
 
 Comparator module.
 
