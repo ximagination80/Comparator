@@ -23,7 +23,6 @@ jdk:
   - openjdk8
   - oraclejdk6
   - oraclejdk7
-  - oraclejdk8
 
 before_install:
   - pip install --user codecov
