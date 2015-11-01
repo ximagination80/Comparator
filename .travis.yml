@@ -1,0 +1,22 @@
+# See http://about.travis-ci.org/docs/user/build-configuration/
+language: scala
+scala:
+   - 2.10.4
+   - 2.11.7
+branches:
+  only:
+    - master
+notifications:
+  email:
+    recipients:
+      - ximagination80@gmail.com
+jdk:
+  - oraclejdk6
+  - oraclejdk7
+  - oraclejdk8
+
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION test
+
+  # Trick to avoid unnecessary cache updates
+  - find $HOME/.sbt -name "*.lock" | xargs rm
