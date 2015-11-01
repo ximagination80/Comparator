@@ -1,12 +1,10 @@
-# See http://about.travis-ci.org/docs/user/build-configuration/
-sudo: false # Enable new travis container-based infrastructure
-
-language: scala
+language:
+  - scala
 
 scala:
-   - 2.9.3
-   - 2.10.5
-   - 2.11.7
+  - 2.9.3
+  - 2.10.5
+  - 2.11.7
 
 branches:
   only:
@@ -18,9 +16,6 @@ notifications:
       - ximagination80@gmail.com
 
 jdk:
-  - openjdk6
-  - openjdk7
-  - oraclejdk6
   - oraclejdk7
   - oraclejdk8
 
@@ -33,3 +28,6 @@ script:
 after_success:
   - codecov
   - sbt "project comparator" coverageReport
+
+
+# See http://about.travis-ci.org/docs/user/build-configuration/
