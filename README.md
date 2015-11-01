@@ -1,12 +1,7 @@
-# Comparator
-
-We use [Travis CI](http://travis-ci.org/) to verify the build:
 [![Build Status](https://travis-ci.org/ximagination80/Comparator.png)](https://travis-ci.org/ximagination80/Comparator)
-
-We use [Coveralls](https://coveralls.io/r/ximagination80/Comparator) for code coverage results:
 [![Coverage Status](https://coveralls.io/repos/ximagination80/Comparator/badge.svg?branch=master&service=github)](https://coveralls.io/github/ximagination80/Comparator?branch=master)
 
-XML/Json template comparator.
+# Comparator XML/Json template comparator
 
 Usage:
 
