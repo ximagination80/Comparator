@@ -1,7 +1,8 @@
 import java.io.File
 
-import comparator.{ComparisonError, ObjectComparator}
-import org.scalatest.{Matchers, FunSuite}
+import comparator.Comparator
+import comparator.ObjectComparator.ComparisonError
+import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
 
@@ -29,15 +30,12 @@ trait Helper {
     val e = toString(file(expected))
     val a = toString(file(actual))
 
-    ObjectComparator.StringComparator.compare(e, a)
+    Comparator.compare(e, a)
   }
 
   def compareJson(path: String) = compareType("json", path)
-
   def compareXml(path: String) = compareType("xml", path)
-
   def compareCss(path: String) = compareType("css", path)
-
   def compareTxt(path: String) = compareType("txt", path)
 
   def errorJson(n: Int, msg: String) = test(s"Json error $n") {

@@ -6,9 +6,9 @@
 Usage:
 
 ```scala
-  import ObjectComparator._
+  import comparator._
 
-  StringComparator.compare(
+  Comparator.compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -19,9 +19,9 @@ Usage:
   match
 
 ```scala
-  import ObjectComparator._
+  import comparator._
 
-  StringComparator.compare(
+  Comparator.compare(
   """
     {"name":"p([a-z]+)","date":"2015-11-01"}
   """,
@@ -32,9 +32,9 @@ Usage:
   match only 2015-11-01 value
 
 ```scala
-  import ObjectComparator._
+  import comparator._
 
-  StringComparator.compare(
+  Comparator.compare(
   """
     {"name":"p([a-z]+)","date":"p(.*)"}
   """,
@@ -46,9 +46,9 @@ Usage:
 
 
 ```scala
-  import ObjectComparator._
+  import comparator._
 
-  StringComparator.compare(
+  Comparator.compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,

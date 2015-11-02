@@ -12,11 +12,11 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
     if (exp.isObject) {
-      if (!act.isObject) throw ComparisonError("Expected object but was " + act.getNodeType)
+      if (!act.isObject) throw error("Expected object but was " + act.getNodeType)
 
       compareElementList(exp.fields().toList, act.fields().toList)
     } else if (exp.isArray) {
-      if (!act.isArray) throw ComparisonError("Expected array but was " + act.getNodeType)
+      if (!act.isArray) throw error("Expected array but was " + act.getNodeType)
 
       compareNodeList(exp.elements().toList, act.elements().toList)
     } else {
@@ -26,12 +26,12 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
   def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
     if (exp.length != act.length)
-      throw ComparisonError(s"Expected array length is ${exp.length} actual ${act.length}")
+      throw error(s"Expected array length is ${exp.length} actual ${act.length}")
 
     for ((expected, idx) <- exp.zipWithIndex) {
       act.lift(idx) match {
         case Some(a) => compare(expected, a)
-        case None => throw ComparisonError(s"Index with number $idx not found")
+        case None => throw error(s"Index with number $idx not found")
       }
     }
   }
@@ -40,32 +40,32 @@ object JsonComparator extends ObjectComparator[JsonNode] {
                          act: List[JEntry[String, JsonNode]]): Unit = {
     if (exp.length != act.length) {
       val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
-      throw ComparisonError(s"Difference in properties or count. Need[$props]")
+      throw error(s"Difference in properties or count. Need[$props]")
     }
 
     exp.foreach{ e=>
       act.find(_.getKey == e.getKey) match {
         case Some(a) => compare(e.getValue, a.getValue)
-        case None => throw ComparisonError(s"Property with name ${e.getKey} not found")
+        case None => throw error(s"Property with name ${e.getKey} not found")
       }
     }
   }
 
   def compareNodes(exp: JsonNode, act: JsonNode) = {
     if (exp.getNodeType != act.getNodeType)
-      throw ComparisonError(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
+      throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
     exp.getNodeType match {
       case BOOLEAN =>
         if (exp.asBoolean() != act.asBoolean())
-          throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
+          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case NUMBER =>
         if (exp.asDouble() != act.asDouble())
-          throw ComparisonError(s"Property ${exp.asText()} is not equal to ${act.asText()}")
+          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case STRING =>
-        StringValueComparator.compare(exp.asText(),act.asText())
+        StringComparator.compare(exp.asText(),act.asText())
 
       case p@_ =>
         throw new RuntimeException("Unexpected json property type. Type is " + p)
