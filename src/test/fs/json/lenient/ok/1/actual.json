@@ -1,0 +1,25 @@
+{
+  "response" : {
+    "id" : 1,
+    "reseller_name" : "Google reseller",
+    "company_name" : "Google",
+    "contact_name" : "Aleksey",
+    "email" : "some@gmail.com",
+    "send_notifications_to" : [ "ximagination80@gmail.com" ],
+    "domain" : "abcd1.com",
+    "additional_domains" : [ "abs" ],
+    "address" : "Kharkov Ukraine",
+    "zip_code" : "56789",
+    "country" : "Turkey",
+    "phone_number" : "0935674142",
+    "cell_number" : "",
+    "alternate_number" : "",
+    "fax_number" : "+1-212-9876543",
+    "security_word" : "Security word 1",
+    "enabled" : true,
+    "expiration_date" : "",
+    "planned_space" : 100,
+    "monthly_charge" : 2000.50,
+    "overused_charge" : 50.99
+  }
+}

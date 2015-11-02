@@ -3,7 +3,9 @@ package comparator
 import comparator.ObjectComparator.ComparisonError
 import org.w3c.dom._
 
-object XMLComparator extends ObjectComparator[Node] {
+case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
+
+  def withStrict(f: => Unit) = if (mode == STRICT) f
 
   @throws[ComparisonError]
   override def compare(exp: Node, act: Node): Unit = {
@@ -16,8 +18,10 @@ object XMLComparator extends ObjectComparator[Node] {
 
       compareAttributes(exp.getAttributes, act.getAttributes)
     } else {
-      if (act.hasAttributes)
-        throw error(s"Additional attributes found in actual document for node ${act.getNodeName}")
+      withStrict{
+        if (act.hasAttributes)
+          throw error(s"Additional attributes found in actual document for node ${act.getNodeName}")
+      }
     }
 
     StringComparator.compare(exp.getNodeValue, act.getNodeValue)
@@ -27,7 +31,9 @@ object XMLComparator extends ObjectComparator[Node] {
 
       compareChildNodes(exp.getChildNodes,act.getChildNodes)
     } else {
-      if (act.hasChildNodes) throw error("Additional child nodes found")
+      withStrict {
+        if (act.hasChildNodes) throw error("Additional child nodes found")
+      }
     }
   }
 
@@ -44,13 +50,16 @@ object XMLComparator extends ObjectComparator[Node] {
   def compareAttributes(exp: NamedNodeMap, act: NamedNodeMap) = {
     val e = asList(exp)
     val a = asList(act)
-    if (e.length != a.length) {
-      var props = e.map(_._1).toSet -- a.map(_._1)
-      if (props.nonEmpty){
-        throw error(s"Attributes length not match. Missing property [$props]")
-      } else {
-        props = a.map(_._1).toSet -- e.map(_._1)
-        throw error(s"Attributes length not match. Found unexpected property [$props]")
+
+    withStrict{
+      if (e.length != a.length) {
+        var props = e.map(_._1).toSet -- a.map(_._1)
+        if (props.nonEmpty){
+          throw error(s"Attributes length not match. Missing property [$props]")
+        } else {
+          props = a.map(_._1).toSet -- e.map(_._1)
+          throw error(s"Attributes length not match. Found unexpected property [$props]")
+        }
       }
     }
 

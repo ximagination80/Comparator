@@ -1,6 +1,10 @@
-import org.scalatest.{Matchers, FunSuite}
+package test.strict
 
-class JsonTest extends FunSuite with Matchers with Helper {
+import org.scalatest.{FunSuite, Matchers}
+import test.Helper
+
+class JsonTestStrict extends FunSuite with Matchers with Helper {
+  useStrict()
 
   Seq(
     1 -> "Difference in properties or count. Need[Set(enabled, send_notifications_to)]",

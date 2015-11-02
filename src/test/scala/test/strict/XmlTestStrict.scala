@@ -1,6 +1,10 @@
-import org.scalatest.{FunSuite, Matchers}
+package test.strict
 
-class XmlTest extends FunSuite with Matchers with Helper {
+import org.scalatest.{FunSuite, Matchers}
+import test.Helper
+
+class XmlTestStrict extends FunSuite with Matchers with Helper {
+  useStrict()
 
   Seq(
     1 -> "Attributes not found in actual document for node catalog",

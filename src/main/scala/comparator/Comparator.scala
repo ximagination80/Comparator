@@ -8,7 +8,7 @@ import comparator.ObjectComparator.ComparisonError
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
-object Comparator extends ObjectComparator[String] {
+case class Comparator(mode:Mode) extends ObjectComparator[String] {
 
   @throws[ComparisonError]
   override def compare(expected: String, actual: String): Unit = {
@@ -21,10 +21,10 @@ object Comparator extends ObjectComparator[String] {
       try {
         parse match {
           case JsonObjects(e, a) =>
-            JsonComparator.compare(e, a)
+            JsonComparator(mode).compare(e, a)
 
           case XMLObjects(e, a) =>
-            XMLComparator.compare(e, a)
+            XMLComparator(mode).compare(e, a)
 
           case NotEqualContentTypeObjects =>
             throw error("Content is not equal and can't be associate with json/xml. Unable to compare")

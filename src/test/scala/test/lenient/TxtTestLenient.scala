@@ -1,6 +1,10 @@
-import org.scalatest.{FunSuite, Matchers}
+package test.lenient
 
-class TxtTest extends FunSuite with Matchers with Helper {
+import org.scalatest.{FunSuite, Matchers}
+import test.Helper
+
+class TxtTestLenient extends FunSuite with Matchers with Helper {
+   useLenient()
 
    Seq(
      1 -> "Content is not equal and can't be associate with json/xml. Unable to compare"

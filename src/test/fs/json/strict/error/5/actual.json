@@ -1,0 +1,18 @@
+{
+  "response" : {
+    "file_id" : 21,
+    "key" : "0cb7eb00-cdfc-453b-8293-fd71d569ad0e.txt",
+    "size" : 2,
+    "name" : "global file admin 1 [FILE 1] user 1     [FOLDER 3] FILE_ID[21]",
+    "extension" : "txt",
+    "owner" : "Reseller 1 Admin 1 User 1",
+    "locked_by_account_id" : 7,
+    "locked_by_account_name" : "Reseller 1 Admin 1 User 2",
+    "created_date" : "2015-06-06",
+    "modified_date" : "",
+    "location" : {
+      "file_id" : 21,
+      "key" : "0cb7eb00-cdfc-453b-8293-fd71d569ad0e.txt"
+    }
+  }
+}

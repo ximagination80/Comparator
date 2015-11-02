@@ -1,7 +1,9 @@
+package test
+
 import java.io.File
 
-import comparator.Comparator
 import comparator.ObjectComparator.ComparisonError
+import comparator.{Comparator, LENIENT, Mode, STRICT}
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
@@ -9,6 +11,10 @@ import scala.io.Source
 trait Helper {
 
   this: FunSuite with Matchers =>
+
+  var mode:Mode = _
+  def useStrict() = mode = STRICT
+  def useLenient() = mode = LENIENT
 
   val resDir = new File(System.getProperty("user.dir"), "/src/test/fs")
   require(resDir.exists())
@@ -30,7 +36,7 @@ trait Helper {
     val e = toString(file(expected))
     val a = toString(file(actual))
 
-    Comparator.compare(e, a)
+    Comparator(mode).compare(e, a)
   }
 
   def compareJson(path: String) = compareType("json", path)
@@ -78,6 +84,14 @@ trait Helper {
     compareTxt(s"/ok/$n/")
   }
 
-  def compareType(tpe: String, path: String) =
-    compare(tpe + path + "expected." + tpe, tpe + path + "actual." + tpe)
+  def compareType(tpe: String, path: String) = {
+    val template = tpe + {
+      mode match {
+        case STRICT => "/strict/"
+        case LENIENT => "/lenient/"
+      }
+    } + path + "%s." + tpe
+    compare(template.format("expected"), template.format("actual"))
+  }
+
 }

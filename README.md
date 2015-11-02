@@ -8,7 +8,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator.compare(
+  Comparator(mode = STRICT).compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -21,7 +21,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator.compare(
+  Comparator(mode = STRICT).compare(
   """
     {"name":"p([a-z]+)","date":"2015-11-01"}
   """,
@@ -34,7 +34,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator.compare(
+  Comparator(mode = STRICT).compare(
   """
     {"name":"p([a-z]+)","date":"p(.*)"}
   """,
@@ -48,7 +48,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator.compare(
+  Comparator(mode = STRICT).compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -57,6 +57,66 @@ Usage:
   """)
 ```
   not match because of incorrect "date" field template
+
+```scala
+  import comparator._
+
+  Comparator(mode = LENIENT).compare(
+  """
+    {"date":"p(\\d{4}-\\d{2}-\\d{2})"}
+  """,
+  """
+    {"name":"imagination","date":"01-01-2015"}
+  """)
+```
+  match. Do not check field "name" in actual input
+  
+```scala
+  import comparator._
+
+  Comparator(mode = LENIENT).compare(
+  """
+    {"date":"p(\\d{4}-\\d{2}-\\d{2})", "fields":
+          [
+            {
+              "field1":"name",
+              "type":"int"
+            },
+            {
+               "field2":"surname",
+               "type":"string"
+            }, {}
+      ]
+    }
+  """,
+  """
+    {"date":"2015-11-11", "fields":
+          [
+            {
+              "field1":"name",
+              "type":"int",
+              "default": "0"
+            },
+            {
+              "field2":"surname",
+              "type":"string",
+              "default": ""
+            },
+            {
+              "field2":"surname",
+              "type":"string",
+              "default": ""
+            }
+          ] 
+    }
+  """)
+```
+  match. 
+  
+  1) Assert "date" pattern
+  2) Assert "date" / "fields" column names
+  3) Assert "fields" array length
+  4) Assert each array object & ignore "default" column 
 
 
 

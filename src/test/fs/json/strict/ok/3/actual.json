@@ -1,0 +1,83 @@
+{
+  "response" : [ {
+    "file_id" : 25,
+    "folder_id" : 16,
+    "file_name" : "global file admin 1 [FILE 5] super admin 1 [FOLDER 3] FILE_ID[25]",
+    "size" : 29,
+    "owner_name" : "Christian Super Admin",
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 24,
+    "folder_id" : 16,
+    "file_name" : "global file admin 1 [FILE 4] reseller 1 [FOLDER 3] FILE_ID[24]",
+    "size" : 2,
+    "owner_name" : "Aleksey Gnidash Reseller 1",
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 26,
+    "folder_id" : 14,
+    "file_name" : "global file admin 1 [FILE 6] user 2 [FOLDER 1] FILE_ID[26]",
+    "size" : 29,
+    "owner_name" : "Christian Super Admin",
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 27,
+    "folder_id" : 20,
+    "file_name" : "global file admin 1 [FILE 7] user 1     [FOLDER 7] FILE_ID[27] DELETED",
+    "size" : 29,
+    "owner_name" : "Reseller 1 Admin 1 User 1",
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 31,
+    "folder_id" : 16,
+    "file_name" : "global file admin 1 [FILE 1] user 2     [FOLDER 16] FILE_ID[31] DELETED",
+    "size" : 29,
+    "owner_name" : "Reseller 1 Admin 1 User 2",
+    "is_favorite" : false,
+    "created_date" : "2015-06-04",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 30,
+    "folder_id" : 16,
+    "file_name" : "global file admin 1 [FILE 1] user 2     [FOLDER 16] FILE_ID[30] DELETED",
+    "size" : 29,
+    "owner_name" : "Reseller 1 Admin 1 User 2",
+    "is_favorite" : false,
+    "created_date" : "2015-06-04",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 29,
+    "folder_id" : 14,
+    "file_name" : "global file admin 1 [FILE 1] user 1     [FOLDER 14] FILE_ID[29] DELETED",
+    "size" : 29,
+    "owner_name" : "Reseller 1 Admin 1",
+    "is_favorite" : false,
+    "created_date" : "2015-06-04",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  }, {
+    "file_id" : 28,
+    "folder_id" : 18,
+    "file_name" : "global file admin 1 [FILE 8] reseller 1     [FOLDER 5] FILE_ID[28] DELETED",
+    "size" : 29,
+    "owner_name" : "Aleksey Gnidash Reseller 1",
+    "is_favorite" : false,
+    "created_date" : "2015-06-04",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  } ]
+}

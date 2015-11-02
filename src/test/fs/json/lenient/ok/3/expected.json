@@ -1,0 +1,16 @@
+{
+  "response" : [ {
+    "file_id" : 25,
+    "folder_id" : 16,
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "p(.*)",
+    "path" : "global"
+  }, {
+    "file_id" : 24,
+    "folder_id" : 16,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "p(.*)",
+    "path" : "global"
+  }, {}, {}, {}, {}, {}, {} ]
+}

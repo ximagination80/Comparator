@@ -8,7 +8,9 @@ import comparator.ObjectComparator.ComparisonError
 
 import scala.collection.JavaConversions._
 
-object JsonComparator extends ObjectComparator[JsonNode] {
+case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode] {
+
+  def withStrict(f: => Unit) = if (mode == STRICT) f
 
   @throws[ComparisonError]
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
@@ -39,9 +41,11 @@ object JsonComparator extends ObjectComparator[JsonNode] {
 
   def compareElementList(exp: List[JEntry[String, JsonNode]],
                          act: List[JEntry[String, JsonNode]]): Unit = {
-    if (exp.length != act.length) {
-      val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
-      throw error(s"Difference in properties or count. Need[$props]")
+    withStrict{
+      if (exp.length != act.length) {
+        val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
+        throw error(s"Difference in properties or count. Need[$props]")
+      }
     }
 
     exp.foreach{ e=>
