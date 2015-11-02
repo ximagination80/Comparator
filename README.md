@@ -3,6 +3,25 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ximagination80/Comparator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 # Xml,Json template comparator
 
+# Installation
+
+> git clone https://github.com/ximagination80/Comparator.git
+> sbt publishLocal
+
+### Version
+
+> LAST_VERSION = 0.2-SNAPSHOT
+
+### Dependency
+> imagination % comparator_2.11 % LAST_VERSION
+
+### Dependency list
+
+* "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
+* "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
+
+==
+
 Usage:
 
 ```scala
@@ -113,10 +132,10 @@ Usage:
 ```
   match. 
   
-  1) Assert "date" pattern
-  2) Assert "date" / "fields" column names
-  3) Assert "fields" array length
-  4) Assert each array object & ignore "default" column 
+* 1) Assert "date" pattern
+* 2) Assert "date" / "fields" column names
+* 3) Assert "fields" array length
+* 4) Assert each array object and ignore "default" column
 
 
 

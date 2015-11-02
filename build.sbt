@@ -1,8 +1,12 @@
 name := "Comparator"
 
-version := "1.0"
+version := "0.2-SNAPSHOT"
+
+organization := "imagination"
 
 scalaVersion := "2.11.7"
+
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "UTF-8")
 
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
@@ -12,10 +16,12 @@ libraryDependencies ++= Seq(
 
 coverageEnabled := true
 
-coverageMinimum := 70
+coverageMinimum := 90
 
-coverageFailOnMinimum := false
-
-publishArtifact in Test := false
+coverageFailOnMinimum := true
 
 parallelExecution in Test := false
+
+publishMavenStyle := true
+
+publishArtifact in Test := false

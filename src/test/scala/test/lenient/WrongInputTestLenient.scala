@@ -6,7 +6,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 class WrongInputTestLenient extends FunSuite with Matchers {
 
-   def lenient = Comparator(mode = LENIENT)
+   def lenient:Comparator = Comparator(mode = LENIENT)
 
    test("wrong data 1") {
      intercept[ComparisonError] {

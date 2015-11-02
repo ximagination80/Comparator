@@ -5,7 +5,7 @@ import org.w3c.dom._
 
 case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
 
-  def withStrict(f: => Unit) = if (mode == STRICT) f
+  private def withStrict(f: => Unit) = if (mode == STRICT) f
 
   @throws[ComparisonError]
   override def compare(exp: Node, act: Node): Unit = {
@@ -37,7 +37,7 @@ case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
     }
   }
 
-  def compareChildNodes(exp:NodeList,act:NodeList)={
+  private def compareChildNodes(exp:NodeList,act:NodeList)={
     if (exp.getLength != act.getLength) {
       throw error(s"Child nodes length not equals.")
     }
@@ -47,7 +47,7 @@ case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
     }
   }
 
-  def compareAttributes(exp: NamedNodeMap, act: NamedNodeMap) = {
+  private def compareAttributes(exp: NamedNodeMap, act: NamedNodeMap) = {
     val e = asList(exp)
     val a = asList(act)
 
@@ -71,7 +71,7 @@ case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
     }
   }
 
-  def asList(o: NamedNodeMap): Seq[(String, String)] = {
+  private def asList(o: NamedNodeMap): Seq[(String, String)] = {
     for (idx <- 0 until o.getLength; item = o.item(idx))
     yield (item.getNodeName, item.getNodeValue)
   }.toSeq

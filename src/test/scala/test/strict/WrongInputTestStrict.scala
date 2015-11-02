@@ -6,7 +6,7 @@ import org.scalatest.{FunSuite, Matchers}
 
 class WrongInputTestStrict extends FunSuite with Matchers {
 
-  def strict = Comparator(mode = STRICT)
+  def strict:Comparator = Comparator(mode = STRICT)
 
   test("wrong data 1") {
     intercept[ComparisonError] {

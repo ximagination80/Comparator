@@ -7,7 +7,7 @@ trait ObjectComparator[T] {
   @throws[ComparisonError]
   def compare(expected: T, actual: T): Unit
 
-  def error(msg: String) = ComparisonError(msg)
+  def error(msg: String): ComparisonError= ComparisonError(msg)
 }
 
 object ObjectComparator {

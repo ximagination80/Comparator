@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
 
 case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode] {
 
-  def withStrict(f: => Unit) = if (mode == STRICT) f
+  private def withStrict(f: => Unit) = if (mode == STRICT) f
 
   @throws[ComparisonError]
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
@@ -27,7 +27,7 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
     }
   }
 
-  def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
+  private def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
     if (exp.length != act.length)
       throw error(s"Expected array length is ${exp.length} actual ${act.length}")
 
@@ -36,7 +36,7 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
     }
   }
 
-  def compareElementList(exp: List[JEntry[String, JsonNode]],
+  private def compareElementList(exp: List[JEntry[String, JsonNode]],
                          act: List[JEntry[String, JsonNode]]): Unit = {
     withStrict{
       if (exp.length != act.length) {
@@ -53,7 +53,7 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
     }
   }
 
-  def compareNodes(exp: JsonNode, act: JsonNode) = {
+  private def compareNodes(exp: JsonNode, act: JsonNode) = {
     if (exp.getNodeType != act.getNodeType)
       throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
