@@ -14,9 +14,6 @@ object ObjectComparator {
   case class ComparisonError(msg: String) extends RuntimeException(msg)
 }
 
-trait Mode {
-  def strict = this == STRICT
-  def lenient = this == LENIENT
-}
+trait Mode
 object STRICT extends Mode
 object LENIENT extends Mode

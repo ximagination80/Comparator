@@ -32,10 +32,7 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
       throw error(s"Expected array length is ${exp.length} actual ${act.length}")
 
     for ((expected, idx) <- exp.zipWithIndex) {
-      act.lift(idx) match {
-        case Some(a) => compare(expected, a)
-        case None => throw error(s"Index with number $idx not found")
-      }
+      compare(expected, act(idx))
     }
   }
 
