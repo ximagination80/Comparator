@@ -5,8 +5,8 @@
 
 # Installation
 
-> git clone https://github.com/ximagination80/Comparator.git
-> sbt publishLocal
+> * git clone https://github.com/ximagination80/Comparator.git
+> * sbt publishLocal
 
 ### Version
 
