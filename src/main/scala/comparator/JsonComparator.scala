@@ -5,11 +5,13 @@ import java.util.regex.Pattern
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeType._
+import comparator.ObjectComparator.ComparisonError
 
 import scala.collection.JavaConversions._
 
 object JsonComparator extends ObjectComparator[JsonNode] {
 
+  @throws[ComparisonError]
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
     if (exp.isObject) {
       if (!act.isObject) throw error("Expected object but was " + act.getNodeType)

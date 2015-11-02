@@ -10,6 +10,7 @@ import org.xml.sax.InputSource
 
 object Comparator extends ObjectComparator[String] {
 
+  @throws[ComparisonError]
   override def compare(expected: String, actual: String): Unit = {
     if (expected != actual) {
       if (expected.isEmpty || actual.isEmpty)

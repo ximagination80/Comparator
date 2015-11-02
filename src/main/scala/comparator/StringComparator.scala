@@ -3,11 +3,14 @@ package comparator
 import java.util.regex.Pattern
 
 import comparator.JsonComparator._
+import comparator.ObjectComparator.ComparisonError
 
 object StringComparator extends ObjectComparator[String]{
+
   val any = "p(.*)"
   val patternExtractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
 
+  @throws[ComparisonError]
   def compare(exp: String, act: String):Unit={
     if (exp != act && exp != any) {
       val m = patternExtractor.matcher(exp)

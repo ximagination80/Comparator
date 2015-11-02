@@ -1,9 +1,11 @@
 package comparator
 
+import comparator.ObjectComparator.ComparisonError
 import org.w3c.dom._
 
 object XMLComparator extends ObjectComparator[Node] {
 
+  @throws[ComparisonError]
   override def compare(exp: Node, act: Node): Unit = {
     if (exp.getNodeName != act.getNodeName)
       throw error(s"Expected node name ${exp.getNodeName} but was ${act.getNodeName}")
