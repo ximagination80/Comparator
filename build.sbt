@@ -8,6 +8,8 @@ scalaVersion := "2.11.7"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "UTF-8")
 
+crossScalaVersions := Seq("2.11.7","2.10.5")
+
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3",
