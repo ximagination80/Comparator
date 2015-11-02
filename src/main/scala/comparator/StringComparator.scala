@@ -2,7 +2,6 @@ package comparator
 
 import java.util.regex.Pattern
 
-import comparator.JsonComparator._
 import comparator.ObjectComparator.ComparisonError
 
 object StringComparator extends ObjectComparator[String]{
@@ -24,5 +23,9 @@ object StringComparator extends ObjectComparator[String]{
           throw error(s"Property $exp is not equal to $act")
       }
     }
+  }
+
+  def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
+    case e: Exception => throw new RuntimeException( s"Illegal Pattern $pattern")
   }
 }

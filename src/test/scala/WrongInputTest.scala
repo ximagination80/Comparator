@@ -22,4 +22,11 @@ class WrongInputTest extends FunSuite with Matchers {
     }.msg shouldBe "Content is not equal and can't be associate with json/xml. Unable to compare"
   }
 
+  test("wrong data 4") {
+    intercept[ComparisonError] {
+      Comparator.compare("<x><a></a></x>", """some text""")
+    }.msg shouldBe "Content is not equal and can't be associate with json/xml. Unable to compare"
+  }
+
+
 }

@@ -1,7 +1,6 @@
 package comparator
 
 import java.util.Map.{Entry => JEntry}
-import java.util.regex.Pattern
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeType._
@@ -72,9 +71,5 @@ object JsonComparator extends ObjectComparator[JsonNode] {
       case p@_ =>
         throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
-  }
-
-  def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
-    case e: Exception => throw new RuntimeException( s"Illegal Pattern $pattern")
   }
 }
