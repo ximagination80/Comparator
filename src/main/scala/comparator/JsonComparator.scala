@@ -69,6 +69,9 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
       case STRING =>
         StringComparator.compare(exp.asText(),act.asText())
 
+      case NULL =>
+        // equals
+
       case p@_ =>
         throw new RuntimeException("Unexpected json property type. Type is " + p)
     }

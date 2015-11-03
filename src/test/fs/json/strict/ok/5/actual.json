@@ -1,0 +1,13 @@
+{
+  "response" : [ {
+    "file_id" : null,
+    "folder_id" : null,
+    "file_name" : "global file admin 1 [FILE 5] super admin 1 [FOLDER 3] FILE_ID[25]",
+    "size" : 29,
+    "owner_name" : "Christian Super Admin",
+    "is_favorite" : false,
+    "created_date" : "2015-06-06",
+    "deleted_date" : "2015-06-06",
+    "path" : "global"
+  } ]
+}

@@ -1,7 +1,7 @@
 {
   "response" : {
     "id" : 1,
-    "reseller_name" : "Google reseller",
+    "reseller_name" : null,
     "company_name" : "Google",
     "contact_name" : "Aleksey",
     "email" : "some@gmail.com",

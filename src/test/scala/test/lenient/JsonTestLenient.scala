@@ -19,9 +19,10 @@ class JsonTestLenient extends FunSuite with Matchers with Helper {
      10 -> "Property 10.11 is not equal to 10.1",
      11 -> "Property abs should match pattern \\d+",
      12 -> "Illegal Pattern ([a-z]+",
-     13 -> "Expected array length is 7 actual 8"
+     13 -> "Expected array length is 7 actual 8",
+     14 -> "Expected NULL but was NUMBER"
    ).map((e) => errorJson(e._1, e._2))
 
-   (1 to 4) map okJson
+   (1 to 5) map okJson
 
  }
