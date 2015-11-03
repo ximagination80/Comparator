@@ -14,16 +14,32 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
 
   @throws[ComparisonError]
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
-    if (exp.isObject) {
-      if (!act.isObject) throw error("Expected object but was " + act.getNodeType)
+    if (exp.getNodeType != act.getNodeType)
+      throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
-      compareElementList(exp.fields().toList, act.fields().toList)
-    } else if (exp.isArray) {
-      if (!act.isArray) throw error("Expected array but was " + act.getNodeType)
+    exp.getNodeType match {
+      case BOOLEAN =>
+        if (exp.asBoolean() != act.asBoolean())
+          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
-      compareNodeList(exp.elements().toList, act.elements().toList)
-    } else {
-      compareNodes(exp, act)
+      case NUMBER =>
+        if (exp.asDouble() != act.asDouble())
+          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
+
+      case STRING =>
+        StringComparator.compare(exp.asText(),act.asText())
+
+      case ARRAY =>
+        compareNodeList(exp.elements().toList, act.elements().toList)
+
+      case OBJECT =>
+        compareElementList(exp.fields().toList, act.fields().toList)
+
+      case NULL =>
+        // equals
+
+      case p@_ =>
+        throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
   }
 
@@ -50,30 +66,6 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
         case Some(a) => compare(e.getValue, a.getValue)
         case None => throw error(s"Property with name ${e.getKey} not found")
       }
-    }
-  }
-
-  private def compareNodes(exp: JsonNode, act: JsonNode) = {
-    if (exp.getNodeType != act.getNodeType)
-      throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
-
-    exp.getNodeType match {
-      case BOOLEAN =>
-        if (exp.asBoolean() != act.asBoolean())
-          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
-
-      case NUMBER =>
-        if (exp.asDouble() != act.asDouble())
-          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
-
-      case STRING =>
-        StringComparator.compare(exp.asText(),act.asText())
-
-      case NULL =>
-        // equals
-
-      case p@_ =>
-        throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
   }
 }
