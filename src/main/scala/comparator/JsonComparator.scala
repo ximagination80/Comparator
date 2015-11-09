@@ -17,7 +17,7 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
     if (exp.getNodeType != act.getNodeType)
       throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
-    exp.getNodeType match {
+    (exp.getNodeType: @unchecked) match {
       case BOOLEAN =>
         if (exp.asBoolean() != act.asBoolean())
           throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
@@ -37,9 +37,6 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
 
       case NULL =>
         // equals
-
-      case p@_ =>
-        throw new RuntimeException("Unexpected json property type. Type is " + p)
     }
   }
 
