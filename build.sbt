@@ -6,6 +6,8 @@ organization := "imagination"
 
 scalaVersion := "2.11.7"
 
+scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "UTF-8")
+
 crossScalaVersions := Seq("2.11.7","2.10.5")
 
 libraryDependencies ++= Seq(
@@ -25,5 +27,3 @@ parallelExecution in Test := false
 publishMavenStyle := true
 
 publishArtifact in Test := false
-
-assemblyJarName in assembly := "comparator.jar"
