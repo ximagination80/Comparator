@@ -19,23 +19,29 @@
 
 # Installation
 
-> git clone https://github.com/ximagination80/Comparator.git
-> sbt publishLocal
+* git clone https://github.com/ximagination80/Comparator.git
+* sbt publishLocal
 
 ### Version
 
 > LAST_VERSION = 0.2-SNAPSHOT
 
 ### Dependency
+
 > imagination % comparator_2.11 % LAST_VERSION % test
 
 ### Dependency list
 
-> "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
-> "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
+* "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
+* "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
 
 ==
+### How to use:
 
+* Comparator.MODE_STRICT.compare("a","b") or Comparator(mode = STRICT)
+* Comparator.MODE_LENIENT.compare("a","b") or Comparator(mode = LENIENT)
+
+==
 Usage:
 
 ```scala
@@ -53,7 +59,6 @@ Usage:
 
 * Will compare name by pattern template [a-z]+ (Pattern.DOTALL flag)
 * Will compare date by pattern template \\d{4}-\\d{2}-\\d{2} (Pattern.DOTALL flag)
-
 
 ==
 ```scala
