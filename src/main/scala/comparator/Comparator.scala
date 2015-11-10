@@ -82,3 +82,8 @@ case class Comparator(mode:Mode) extends ObjectComparator[String] {
   object NotEqualContentTypeObjects extends ParseResult
 }
 
+object Comparator {
+  val MODE_STRICT = Comparator(mode = STRICT)
+  val MODE_LENIENT = Comparator(mode = LENIENT)
+}
+
