@@ -4,7 +4,6 @@
 [![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 # Xml,Json template comparator
 
-==
 #License
 The Apache License.
 
@@ -78,7 +77,6 @@ Usage:
 
 * Will compare name by pattern template [a-z]+ (Pattern.DOTALL flag)
 * Will compare date by equals strategy
-
 
 ==
 ```scala
