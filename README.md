@@ -1,7 +1,12 @@
 [![Build Status](https://travis-ci.org/ximagination80/Comparator.png)](https://travis-ci.org/ximagination80/Comparator)
 [![codecov.io](https://codecov.io/github/ximagination80/Comparator/coverage.svg?branch=master)](https://codecov.io/github/ximagination80/Comparator?branch=master)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ximagination80/Comparator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![License](http://img.shields.io/:license-Apache%202-red.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)
 # Xml,Json template comparator
+
+==
+#License
+The Apache License.
 
 # Usage
 
@@ -17,18 +22,15 @@
 * Incorrect array length
 * Field is missing
 
-# Installation
+## Dependency
+
+* "imagination" % "comparator_2.11" % "0.3-SNAPSHOT" % "test"
+
+==
+## Installation
 
 * git clone https://github.com/ximagination80/Comparator.git
 * sbt publishLocal
-
-### Version
-
-> LAST_VERSION = 0.2-SNAPSHOT
-
-### Dependency
-
-> imagination % comparator_2.11 % LAST_VERSION % test
 
 ### Dependency list
 
@@ -172,8 +174,4 @@ Usage:
 * Assert "date" / "fields" column names
 * Assert "fields" array length
 * Assert each array object and ignore "default" column
-
-
-
-
 
