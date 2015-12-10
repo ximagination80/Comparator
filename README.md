@@ -24,7 +24,7 @@ The Apache License.
 
 ## Dependency
 
-* "imagination" % "comparator_2.11" % "0.3-SNAPSHOT" % "test"
+* "imagination" % "comparator_2.11" % "0.4-SNAPSHOT" % "test"
 
 ==
 ## Installation

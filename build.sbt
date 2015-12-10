@@ -1,6 +1,6 @@
 name := "Comparator"
 
-version := "0.3-SNAPSHOT"
+version := "0.4-SNAPSHOT"
 
 organization := "imagination"
 
