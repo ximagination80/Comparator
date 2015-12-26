@@ -56,7 +56,7 @@
 <a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency</h2>
 
 <ul>
-<li>"imagination" % "comparator_2.11" % "0.4-SNAPSHOT" % "test"</li>
+<li>"imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"</li>
 </ul>
 
 <h1></h1>
@@ -84,8 +84,8 @@
 <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use:</h3>
 
 <ul>
-<li>Comparator.MODE_STRICT.compare("a","b") or Comparator(mode = STRICT)</li>
-<li>Comparator.MODE_LENIENT.compare("a","b") or Comparator(mode = LENIENT)</li>
+<li>Comparator.strict.compare("a","b") or Comparator(mode = Strict).compare("a","b")</li>
+<li>Comparator.lenient.compare("a","b") or Comparator(mode = Lenient).compare("a","b")</li>
 </ul>
 
 <h1></h1>
@@ -94,7 +94,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">STRICT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Strict</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"name":"p([a-z]+)","date":"p(<span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2})"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
@@ -113,7 +113,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">STRICT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Strict</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"name":"p([a-z]+)","date":"2015-11-01"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
@@ -132,7 +132,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">STRICT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Strict</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"name":"p([a-z]+)","date":"p(.*)"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
@@ -151,7 +151,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">STRICT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Strict</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"name":"p([a-z]+)","date":"p(<span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2})"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
@@ -165,7 +165,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">LENIENT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Lenient</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"date":"p(<span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2})"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
@@ -183,7 +183,7 @@
 
 <div class="highlight highlight-source-scala"><pre>  <span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">LENIENT</span>).compare(
+  <span class="pl-en">Comparator</span>(mode <span class="pl-k">=</span> <span class="pl-en">Lenient</span>).compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"date":"p(<span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2})", "fields":</span>
 <span class="pl-s">          [</span>
@@ -228,6 +228,39 @@
 <li>Assert "fields" array length</li>
 <li>Assert each array object and ignore "default" column</li>
 </ul>
+
+<h1>
+<a id="additional-features" class="anchor" href="#additional-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional features</h1>
+
+<ul>
+<li>Custom pattern registration</li>
+</ul>
+
+<div class="highlight highlight-source-scala"><pre><span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
+
+<span class="pl-k">implicit</span> <span class="pl-k">val</span> <span class="pl-en">map</span> <span class="pl-k">=</span> <span class="pl-en">Map</span>(
+    <span class="pl-s"><span class="pl-pds">"</span>date<span class="pl-pds">"</span></span><span class="pl-k">-</span><span class="pl-k">&gt;</span> <span class="pl-en">Pattern</span>.compile(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2}<span class="pl-pds">"</span></span>)
+)
+
+<span class="pl-en">Comparator</span>.<span class="pl-en">Strict</span>.compare(
+  <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">    {"date":"p(date)", "fields":</span>
+<span class="pl-s">          [</span>
+<span class="pl-s">            {</span>
+<span class="pl-s">              "field1":"name"</span>
+<span class="pl-s">            }</span>
+<span class="pl-s">      ]</span>
+<span class="pl-s">    }</span>
+<span class="pl-s">  <span class="pl-pds">"""</span></span>,
+  <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">    {"date":"2015-11-11", "fields":</span>
+<span class="pl-s">          [</span>
+<span class="pl-s">            {</span>
+<span class="pl-s">              "field1":"name"</span>
+<span class="pl-s">            }</span>
+<span class="pl-s">          ]</span>
+<span class="pl-s">    }</span>
+<span class="pl-s">  <span class="pl-pds">"""</span></span>)</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ximagination80/Comparator">Comparator</a> is maintained by <a href="https://github.com/ximagination80">ximagination80</a>.</span>
