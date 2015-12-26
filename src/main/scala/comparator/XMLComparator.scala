@@ -1,46 +1,46 @@
 package comparator
 
-import comparator.ObjectComparator.ComparisonError
+import java.util.regex.Pattern
+
 import org.w3c.dom._
 
-case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
+case class XMLComparator(mode:Mode = Strict)(implicit alias:Map[String,Pattern] = Map())
+  extends ObjectComparator[Node] with ErrorHelper {
 
-  private def withStrict(f: => Unit) = if (mode == STRICT) f
+  private def withStrict(f: => Unit) = if (mode == Strict) f
 
   @throws[ComparisonError]
   override def compare(exp: Node, act: Node): Unit = {
-    if (exp.getNodeName != act.getNodeName)
-      throw error(s"Expected node name ${exp.getNodeName} but was ${act.getNodeName}")
+    raise(exp.getNodeName != act.getNodeName,
+      s"Expected node name ${exp.getNodeName} but was ${act.getNodeName}")
 
     if (exp.hasAttributes) {
-      if (!act.hasAttributes)
-        throw error(s"Attributes not found in actual document for node ${act.getNodeName}")
+      raise(!act.hasAttributes,
+        s"Attributes not found in actual document for node ${act.getNodeName}")
 
       compareAttributes(exp.getAttributes, act.getAttributes)
     } else {
-      withStrict{
-        if (act.hasAttributes)
-          throw error(s"Additional attributes found in actual document for node ${act.getNodeName}")
+      withStrict {
+        raise(act.hasAttributes,
+          s"Additional attributes found in actual document for node ${act.getNodeName}")
       }
     }
 
-    StringComparator.compare(exp.getNodeValue, act.getNodeValue)
+    StringComparator().compare(exp.getNodeValue, act.getNodeValue)
 
-    if (exp.hasChildNodes){
-      if (!act.hasChildNodes) throw error("Child nodes not found")
+    if (exp.hasChildNodes) {
+      raise(!act.hasChildNodes, "Child nodes not found")
 
-      compareChildNodes(exp.getChildNodes,act.getChildNodes)
+      compareChildNodes(exp.getChildNodes, act.getChildNodes)
     } else {
       withStrict {
-        if (act.hasChildNodes) throw error("Additional child nodes found")
+        raise(act.hasChildNodes, "Additional child nodes found")
       }
     }
   }
 
-  private def compareChildNodes(exp:NodeList,act:NodeList)={
-    if (exp.getLength != act.getLength) {
-      throw error(s"Child nodes length not equals.")
-    }
+  private def compareChildNodes(exp: NodeList, act: NodeList) = {
+    raise(exp.getLength != act.getLength, s"Child nodes length not equals.")
 
     for (idx <- 0 until exp.getLength; item = exp.item(idx)) {
       compare(item, act.item(idx))
@@ -53,20 +53,17 @@ case class XMLComparator(mode:Mode = STRICT) extends ObjectComparator[Node] {
 
     withStrict{
       if (e.length != a.length) {
-        var props = e.map(_._1).toSet -- a.map(_._1)
-        if (props.nonEmpty){
-          throw error(s"Attributes length not match. Missing property [$props]")
-        } else {
-          props = a.map(_._1).toSet -- e.map(_._1)
-          throw error(s"Attributes length not match. Found unexpected property [$props]")
-        }
+        val props = e.map(_._1).toSet -- a.map(_._1)
+
+        raise(props.nonEmpty, s"Attributes length not match. Missing property [$props]")
+        raise(s"Attributes length not match. Found unexpected property [${a.map(_._1).toSet -- e.map(_._1)}]")
       }
     }
 
     e.foreach { e =>
       a.find(_._1 == e._1) match {
-        case Some(actual) => StringComparator.compare(e._2, actual._2)
-        case None => throw error(s"Attribute with name ${e._1} not found")
+        case Some(actual) => StringComparator().compare(e._2, actual._2)
+        case None => raise(s"Attribute with name ${e._1} not found")
       }
     }
   }

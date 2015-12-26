@@ -1,89 +1,60 @@
 package comparator
 
 import java.io.StringReader
-import javax.xml.parsers.DocumentBuilderFactory
+import java.util.regex.Pattern
+import javax.xml.parsers.DocumentBuilderFactory.newInstance
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
-import comparator.ObjectComparator.ComparisonError
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
-case class Comparator(mode:Mode) extends ObjectComparator[String] {
+case class Comparator(mode:Mode)(implicit alias:Map[String,Pattern] = Map())
+  extends ObjectComparator[String] with ErrorHelper{
 
   @throws[ComparisonError]
   override def compare(expected: String, actual: String): Unit = {
     if (expected != actual) {
-      if (expected.isEmpty || actual.isEmpty)
-        throw error("Content is not equal and can't be associate with json/xml. Unable to compare")
-
-      val parse = tryParse(expected, actual)
+      raise(expected.isEmpty || actual.isEmpty,
+        "Content is not equal and type is not the same. Unable to compare trees.")
 
       try {
-        parse match {
-          case JsonObjects(e, a) =>
-            JsonComparator(mode).compare(e, a)
-
-          case XMLObjects(e, a) =>
-            XMLComparator(mode).compare(e, a)
-
-          case NotEqualContentTypeObjects =>
-            throw error("Content is not equal and can't be associate with json/xml. Unable to compare")
+        Parser(expected, actual).parse() match {
+          case (Json(e), Json(a)) => JsonComparator(mode).compare(e, a)
+          case (Xml(e), Xml(a)) => XMLComparator(mode).compare(e, a)
+          case _ => raise("Content is not equal and type is not the same. Unable to compare trees.")
         }
       } catch {
-        case e: ComparisonError =>
-          throw e
-        case e: Throwable =>
-          throw error(e.getMessage)
+        case e: Throwable => raise(e.getMessage)
       }
     }
   }
 
+  case class Parser(expected: String, actual: String) {
+    def parse(): (ParseResult, ParseResult) =
+      (toParseResult(expected), toParseResult(actual))
 
-  private def tryParse(expected: String, actual: String): ParseResult = {
-    asJson(expected) match {
-      case Some(e) =>
-        asJson(actual) match {
-          case Some(a) => JsonObjects(e, a)
-          case None => NotEqualContentTypeObjects
-        }
-
-      case None =>
-        asXML(expected) match {
-          case Some(e) =>
-            asXML(actual) match {
-              case Some(a) => XMLObjects(e, a)
-              case None => NotEqualContentTypeObjects
-            }
-          case None => NotEqualContentTypeObjects
-        }
-    }
+    def toParseResult(value: String): ParseResult =
+      asJson(value).orElse(asXML(value)).getOrElse(Unknown(value))
   }
 
-  def asJson(v: String): Option[JsonNode] = {
-    val mapper = new ObjectMapper()
-
-    try Some(mapper.readTree(v)) catch {
+  def asJson(v: String): Option[ParseResult] =
+    try Some(Json(new ObjectMapper().readTree(v))) catch {
       case e: Throwable => None
     }
-  }
 
-  def asXML(v: String): Option[Document] = {
-    val db = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-    val is = new InputSource(new StringReader(v))
-
-    try Some(db.parse(is)) catch {
+  def asXML(v: String): Option[Xml] =
+    try Some(Xml(newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(v))))) catch {
       case e: Throwable => None
     }
-  }
 
   sealed trait ParseResult
-  case class JsonObjects(expected: JsonNode, actual: JsonNode) extends ParseResult
-  case class XMLObjects(expected: Document, actual: Document) extends ParseResult
-  object NotEqualContentTypeObjects extends ParseResult
+  case class Json(value: JsonNode) extends ParseResult
+  case class Xml(value: Document) extends ParseResult
+  case class Unknown(value:String) extends ParseResult
 }
 
 object Comparator {
-  val MODE_STRICT = Comparator(mode = STRICT)
-  val MODE_LENIENT = Comparator(mode = LENIENT)
+  def strict(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Strict)
+  def lenient(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Lenient)
 }
 

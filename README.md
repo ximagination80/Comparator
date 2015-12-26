@@ -23,7 +23,7 @@ The Apache License.
 
 ## Dependency
 
-* "imagination" % "comparator_2.11" % "0.4-SNAPSHOT" % "test"
+* "imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"
 
 ==
 ## Installation
@@ -39,8 +39,8 @@ The Apache License.
 ==
 ### How to use:
 
-* Comparator.MODE_STRICT.compare("a","b") or Comparator(mode = STRICT)
-* Comparator.MODE_LENIENT.compare("a","b") or Comparator(mode = LENIENT)
+* Comparator.strict.compare("a","b") or Comparator(mode = Strict).compare("a","b")
+* Comparator.lenient.compare("a","b") or Comparator(mode = Lenient).compare("a","b")
 
 ==
 Usage:
@@ -48,7 +48,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = STRICT).compare(
+  Comparator(mode = Strict).compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -65,7 +65,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = STRICT).compare(
+  Comparator(mode = Strict).compare(
   """
     {"name":"p([a-z]+)","date":"2015-11-01"}
   """,
@@ -82,7 +82,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = STRICT).compare(
+  Comparator(mode = Strict).compare(
   """
     {"name":"p([a-z]+)","date":"p(.*)"}
   """,
@@ -99,7 +99,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = STRICT).compare(
+  Comparator(mode = Strict).compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -113,7 +113,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = LENIENT).compare(
+  Comparator(mode = Lenient).compare(
   """
     {"date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -129,7 +129,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = LENIENT).compare(
+  Comparator(mode = Lenient).compare(
   """
     {"date":"p(\\d{4}-\\d{2}-\\d{2})", "fields":
           [
@@ -173,3 +173,34 @@ Usage:
 * Assert "fields" array length
 * Assert each array object and ignore "default" column
 
+# Additional features
+
+* Custom pattern registration
+
+```scala
+import comparator._
+
+implicit val map = Map(
+    "date"-> Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
+)
+
+Comparator.Strict.compare(
+  """
+    {"date":"p(date)", "fields":
+          [
+            {
+              "field1":"name"
+            }
+      ]
+    }
+  """,
+  """
+    {"date":"2015-11-11", "fields":
+          [
+            {
+              "field1":"name"
+            }
+          ]
+    }
+  """)
+```

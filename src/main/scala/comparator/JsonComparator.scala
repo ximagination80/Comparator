@@ -1,33 +1,32 @@
 package comparator
 
 import java.util.Map.{Entry => JEntry}
+import java.util.regex.Pattern
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeType._
-import comparator.ObjectComparator.ComparisonError
-
 import scala.collection.JavaConversions._
 
-case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode] {
+case class JsonComparator(mode:Mode = Strict)(implicit alias:Map[String,Pattern] = Map())
+  extends ObjectComparator[JsonNode] with ErrorHelper {
 
-  private def withStrict(f: => Unit) = if (mode == STRICT) f
+  private def withStrict(f: => Unit) = if (mode == Strict) f
 
   @throws[ComparisonError]
   override def compare(exp: JsonNode, act: JsonNode): Unit = {
-    if (exp.getNodeType != act.getNodeType)
-      throw error(s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
+    raise(exp.getNodeType != act.getNodeType, s"Expected ${exp.getNodeType} but was ${act.getNodeType}")
 
     (exp.getNodeType: @unchecked) match {
       case BOOLEAN =>
-        if (exp.asBoolean() != act.asBoolean())
-          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
+        raise(exp.asBoolean() != act.asBoolean(),
+          s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case NUMBER =>
-        if (exp.asDouble() != act.asDouble())
-          throw error(s"Property ${exp.asText()} is not equal to ${act.asText()}")
+        raise(exp.asDouble() != act.asDouble(),
+          s"Property ${exp.asText()} is not equal to ${act.asText()}")
 
       case STRING =>
-        StringComparator.compare(exp.asText(),act.asText())
+        StringComparator().compare(exp.asText(), act.asText())
 
       case ARRAY =>
         compareNodeList(exp.elements().toList, act.elements().toList)
@@ -36,13 +35,12 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
         compareElementList(exp.fields().toList, act.fields().toList)
 
       case NULL =>
-        // equals
+      // equals
     }
   }
 
   private def compareNodeList(exp: List[JsonNode], act: List[JsonNode]): Unit = {
-    if (exp.length != act.length)
-      throw error(s"Expected array length is ${exp.length} actual ${act.length}")
+    raise(exp.length != act.length, s"Expected array length is ${exp.length} actual ${act.length}")
 
     for ((expected, idx) <- exp.zipWithIndex) {
       compare(expected, act(idx))
@@ -50,18 +48,19 @@ case class JsonComparator(mode:Mode = STRICT) extends ObjectComparator[JsonNode]
   }
 
   private def compareElementList(exp: List[JEntry[String, JsonNode]],
-                         act: List[JEntry[String, JsonNode]]): Unit = {
-    withStrict{
-      if (exp.length != act.length) {
-        val props = exp.map(_.getKey).toSet -- act.map(_.getKey)
-        throw error(s"Difference in properties or count. Need[$props]")
-      }
+                                 act: List[JEntry[String, JsonNode]]): Unit = {
+    withStrict {
+      raise(exp.length != act.length,
+        s"Difference in properties or count. Need[${exp.map(_.getKey).toSet -- act.map(_.getKey)}]")
     }
 
-    exp.foreach{ e=>
+    exp.foreach { e =>
       act.find(_.getKey == e.getKey) match {
-        case Some(a) => compare(e.getValue, a.getValue)
-        case None => throw error(s"Property with name ${e.getKey} not found")
+        case Some(a) =>
+          compare(e.getValue, a.getValue)
+
+        case None =>
+          raise(s"Property with name ${e.getKey} not found")
       }
     }
   }

@@ -21,8 +21,8 @@ class JsonTestLenient extends FunSuite with Matchers with Helper {
      12 -> "Illegal Pattern ([a-z]+",
      13 -> "Expected array length is 7 actual 8",
      14 -> "Expected NULL but was NUMBER"
-   ).map((e) => errorJson(e._1, e._2))
+   ).foreach((e) => errorJson(e._1, e._2))
 
-   (1 to 5) map okJson
+   (1 to 5) foreach okJson
 
  }

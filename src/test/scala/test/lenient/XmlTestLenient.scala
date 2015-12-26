@@ -22,8 +22,8 @@ class XmlTestLenient extends FunSuite with Matchers with Helper {
      13 -> "Property Large should match pattern [large]+",
      14 -> "Property Red is not equal to red",
      15 -> "Illegal Pattern ([a-z]+"
-   ).map((e) => errorXml(e._1, e._2))
+   ).foreach((e) => errorXml(e._1, e._2))
 
-   (1 to 3) map okXml
+   (1 to 3) foreach okXml
  }
 

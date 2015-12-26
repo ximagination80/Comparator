@@ -1,9 +1,9 @@
 package test
 
 import java.io.File
+import java.util.regex.Pattern
 
-import comparator.ObjectComparator.ComparisonError
-import comparator.{Comparator, LENIENT, Mode, STRICT}
+import comparator._
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source
@@ -12,9 +12,13 @@ trait Helper {
 
   this: FunSuite with Matchers =>
 
+  implicit val map = Map(
+    "date" -> Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
+  )
+
   var mode:Mode = _
-  def useStrict():Unit = mode = STRICT
-  def useLenient():Unit = mode = LENIENT
+  def useStrict():Unit = mode = Strict
+  def useLenient():Unit = mode = Lenient
 
   val resDir = new File(System.getProperty("user.dir"), "/src/test/fs")
   require(resDir.exists())
@@ -23,13 +27,7 @@ trait Helper {
 
   def toString(file: File): String = {
     val s = Source.fromFile(file)
-    try {
-      s.mkString
-    } catch {
-      case e: Throwable =>
-        s.close()
-        throw e
-    }
+    try s.mkString finally s.close()
   }
 
   def compare(expected: String, actual: String):Unit = {
@@ -87,8 +85,8 @@ trait Helper {
   def compareType(tpe: String, path: String):Unit = {
     val template = tpe + {
       mode match {
-        case STRICT => "/strict/"
-        case LENIENT => "/lenient/"
+        case Strict => "/strict/"
+        case Lenient => "/lenient/"
       }
     } + path + "%s." + tpe
     compare(template.format("expected"), template.format("actual"))
