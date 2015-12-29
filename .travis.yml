@@ -29,6 +29,10 @@ before_install:
 
 script:
   - sbt ++$TRAVIS_SCALA_VERSION clean coverage test
+  - sbt publishLocal publishM2
+  - cd examples
+  - cd java-comparator
+  - mvn clean test
 
 after_success:
   - codecov
