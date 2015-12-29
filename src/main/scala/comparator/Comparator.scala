@@ -1,14 +1,13 @@
 package comparator
 
 import java.io.StringReader
-import java.util.regex.Pattern
 import javax.xml.parsers.DocumentBuilderFactory.newInstance
 
 import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
-case class Comparator(mode:Mode)(implicit alias:Map[String,Pattern] = Map())
+case class Comparator(mode:Mode)(implicit alias:Aliases = AliasesMap())
   extends ObjectComparator[String] with ErrorHelper{
 
   @throws[ComparisonError]
@@ -54,7 +53,7 @@ case class Comparator(mode:Mode)(implicit alias:Map[String,Pattern] = Map())
 }
 
 object Comparator {
-  def strict(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Strict)
-  def lenient(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Lenient)
+  def strict(implicit alias: Aliases = AliasesMap()) = Comparator(mode = Strict)
+  def lenient(implicit alias: Aliases = AliasesMap()) = Comparator(mode = Lenient)
 }
 

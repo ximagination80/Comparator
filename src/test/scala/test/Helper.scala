@@ -1,7 +1,6 @@
 package test
 
 import java.io.File
-import java.util.regex.Pattern
 
 import comparator._
 import org.scalatest.{FunSuite, Matchers}
@@ -12,9 +11,11 @@ trait Helper {
 
   this: FunSuite with Matchers =>
 
-  implicit val map = Map(
-    "date" -> Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
-  )
+  def prepareAliases(): Aliases = {
+    AliasesMap().set("date", "\\d{4}-\\d{2}-\\d{2}")
+  }
+
+  implicit val aliases = prepareAliases()
 
   var mode:Mode = _
   def useStrict():Unit = mode = Strict

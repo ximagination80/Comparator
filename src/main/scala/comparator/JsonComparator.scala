@@ -1,13 +1,13 @@
 package comparator
 
 import java.util.Map.{Entry => JEntry}
-import java.util.regex.Pattern
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.JsonNodeType._
+
 import scala.collection.JavaConversions._
 
-case class JsonComparator(mode:Mode = Strict)(implicit alias:Map[String,Pattern] = Map())
+case class JsonComparator(mode:Mode = Strict)(implicit alias:Aliases = AliasesMap())
   extends ObjectComparator[JsonNode] with ErrorHelper {
 
   private def withStrict(f: => Unit) = if (mode == Strict) f

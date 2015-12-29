@@ -2,7 +2,7 @@ package comparator
 
 import java.util.regex.Pattern
 
-case class StringComparator()(implicit alias: Map[String, Pattern] = Map())
+case class StringComparator()(implicit alias: Aliases = AliasesMap())
   extends ObjectComparator[String] with ErrorHelper {
 
   @throws[ComparisonError]
@@ -12,7 +12,7 @@ case class StringComparator()(implicit alias: Map[String, Pattern] = Map())
       matcher.matches() match {
         case true =>
           val aliasOrRawPattern = matcher.group(1)
-          val pattern = alias.getOrElse(aliasOrRawPattern, compile(aliasOrRawPattern))
+          val pattern = alias.get(aliasOrRawPattern).getOrElse(compile(aliasOrRawPattern))
 
           raise(!pattern.matcher(actual).matches(),
             s"Property $actual should match pattern $aliasOrRawPattern")

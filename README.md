@@ -180,8 +180,8 @@ Usage:
 ```scala
 import comparator._
 
-implicit val map = Map(
-    "date"-> Pattern.compile("\\d{4}-\\d{2}-\\d{2}")
+implicit val aliases = AliasMap().set(
+    "date"-> Pattern.compile("\\d{4}-\\d{2}-\\d{2}"
 )
 
 Comparator.Strict.compare(

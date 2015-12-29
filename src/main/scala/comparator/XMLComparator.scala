@@ -1,10 +1,8 @@
 package comparator
 
-import java.util.regex.Pattern
-
 import org.w3c.dom._
 
-case class XMLComparator(mode:Mode = Strict)(implicit alias:Map[String,Pattern] = Map())
+case class XMLComparator(mode:Mode = Strict)(implicit alias:Aliases = AliasesMap())
   extends ObjectComparator[Node] with ErrorHelper {
 
   private def withStrict(f: => Unit) = if (mode == Strict) f

@@ -1,7 +1,9 @@
 package test
 
-import comparator.Comparator
-import org.scalatest.{Matchers, FunSuite}
+import java.util.regex.Pattern
+
+import comparator.{AliasesMap, Comparator}
+import org.scalatest.{FunSuite, Matchers}
 
 class ComparatorComparisonTest extends FunSuite with Matchers {
 
@@ -13,4 +15,18 @@ class ComparatorComparisonTest extends FunSuite with Matchers {
     Comparator.lenient.mode shouldBe comparator.Lenient
   }
 
+  test("Alias test") {
+    val regexp = "\\d+"
+
+    val alias = AliasesMap()
+    alias.
+      set("1", regexp).
+      set("2", regexp).
+      set("3", Pattern.compile(regexp))
+
+    alias.get("none") shouldEqual None
+    (1 to 3).map(_.toString).foreach {
+      alias.get(_).get.pattern() shouldEqual regexp
+    }
+  }
 }
