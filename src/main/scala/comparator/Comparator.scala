@@ -55,8 +55,6 @@ case class Comparator(mode:Mode)(implicit alias:Map[String,Pattern] = Map())
 
 object Comparator {
   def strict(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Strict)
-  def strict() = Comparator(mode = Strict)
   def lenient(implicit alias:Map[String,Pattern] = Map()) = Comparator(mode = Lenient)
-  def lenient() = Comparator(mode = Lenient)
 }
 
