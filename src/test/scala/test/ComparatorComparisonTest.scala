@@ -1,5 +1,6 @@
 package test
 
+import java.util
 import java.util.regex.Pattern
 
 import comparator.{AliasMap, Comparator}
@@ -42,4 +43,45 @@ class ComparatorComparisonTest extends FunSuite with Matchers {
     {"date":"2015-11-11", "cost":"100"}
       """)
   }
+
+  test("Object companion lenient java support test") {
+    val map = newJMap()
+    map.put("1",Pattern.compile("\\d+"))
+
+    val cmp = Comparator.java()
+
+    cmp.lenient.mode shouldBe comparator.Lenient
+    cmp.lenient(newJMap()).mode shouldBe comparator.Lenient
+    cmp.lenient(map).mode shouldBe comparator.Lenient
+  }
+
+  test("Object companion strict java support test") {
+    val map = newJMap()
+    map.put("1",Pattern.compile("\\d+"))
+
+    val cmp = Comparator.java()
+
+    cmp.strict.mode shouldBe comparator.Strict
+    cmp.strict(newJMap()).mode shouldBe comparator.Strict
+    cmp.strict(map).mode shouldBe comparator.Strict
+  }
+
+  test("Comparator to alias check") {
+    val regexp = "\\d+"
+    val map = newJMap()
+    map.put("1", Pattern.compile(regexp))
+    map.put("2", Pattern.compile(regexp))
+    map.put("3", Pattern.compile(regexp))
+
+    val cmp = Comparator.java()
+
+    val alias = cmp.toAlias(map)
+
+    (1 to 3).map(_.toString).foreach {
+      alias.get(_).get.pattern() shouldEqual regexp
+    }
+  }
+
+  def newJMap():util.HashMap[String,Pattern]=
+    new util.HashMap[String,Pattern]()
 }

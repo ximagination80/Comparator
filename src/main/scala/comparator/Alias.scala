@@ -9,12 +9,18 @@ trait Alias {
   def get(alias: String): Option[Pattern]
 }
 
-case class AliasMap(map: Map[String, Pattern] = Map()) extends Alias {
-  def add(alias: String, regexp: String) = 
-    add(alias, compile(regexp))
-  
-  def add(alias: String, pattern: Pattern) = 
-    AliasMap(map + (alias -> pattern))
+case class AliasMap() extends Alias {
+  private val map = scala.collection.mutable.Map[String,Pattern]()
+
+  def add(alias: String, regexp: String) = {
+    map.put(alias, compile(regexp))
+    this
+  }
+
+  def add(alias: String, pattern: Pattern) = {
+    map.put(alias, pattern)
+    this
+  }
   
   def get(alias: String) = 
     map.get(alias)

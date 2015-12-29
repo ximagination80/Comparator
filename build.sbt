@@ -19,7 +19,7 @@ homepage := Some(url("https://github.com/ximagination80/Comparator"))
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % Test
 )
 
 coverageEnabled.in(Test, test) := true
@@ -29,3 +29,16 @@ coverageMinimum := 90
 coverageFailOnMinimum := true
 
 parallelExecution in Test := false
+
+publishMavenStyle := true
+
+publishTo :=
+  Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+
+publishTo := {
+  val nexus = "https://oss.sonatype.org/"
+  if (version.value.trim.endsWith("SNAPSHOT"))
+    Some("snapshots" at nexus + "content/repositories/snapshots")
+  else
+    Some("releases"  at nexus + "service/local/staging/deploy/maven2")
+}

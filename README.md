@@ -23,13 +23,25 @@ The Apache License.
 
 ## Dependency
 
-* "imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"
+```scala
+"imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"
+```
+or
 
+```scala
+ <dependency>
+    <groupId>imagination</groupId>
+    <artifactId>comparator_2.11</artifactId>
+    <version>0.5-SNAPSHOT</version>
+    <scope>test</scope>
+ </dependency>
+```
 ==
 ## Installation
 
 * git clone https://github.com/ximagination80/Comparator.git
-* sbt publishLocal
+* cd Comparator
+* sbt publishLocal publishM2  (publishing into [ivy,m2] repo)
 
 ### Dependency list
 
@@ -191,4 +203,39 @@ Comparator.strict.compare(
   """
     {"date":"2015-11-11", "cost":"100"}
   """)
+```
+
+* Java support   (see examples)
+```java
+  package root;
+
+  import comparator.Comparator;
+  import org.junit.Test;
+
+  import java.util.HashMap;
+  import java.util.Map;
+  import java.util.regex.Pattern;
+
+  public class ComparatorTest {
+
+      private static final Map<String, Pattern> ALIASES = new HashMap<String, Pattern>() {
+          {
+              put("digit", Pattern.compile("\\d+"));
+          }
+      };
+
+      private static Comparator createComparator() {
+          return Comparator.java().strict(ALIASES);
+      }
+
+      @Test
+      public void matches() throws Exception {
+          String expected = "{\"count\":\"p(digit)\"}";
+          String actual = "{\"count\":\"120\"}";
+
+          createComparator().compare(expected, actual);
+      }
+  }
+
+
 ```
