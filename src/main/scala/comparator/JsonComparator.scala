@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeType._
 
 import scala.collection.JavaConversions._
 
-case class JsonComparator(mode:Mode = Strict)(implicit alias:Aliases = AliasesMap())
+case class JsonComparator(mode:Mode = Strict)(implicit alias:Alias = AliasMap())
   extends ObjectComparator[JsonNode] with ErrorHelper {
 
   private def withStrict(f: => Unit) = if (mode == Strict) f

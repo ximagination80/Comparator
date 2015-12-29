@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 
-case class Comparator(mode:Mode)(implicit alias:Aliases = AliasesMap())
+case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper{
 
   @throws[ComparisonError]
@@ -53,7 +53,7 @@ case class Comparator(mode:Mode)(implicit alias:Aliases = AliasesMap())
 }
 
 object Comparator {
-  def strict(implicit alias: Aliases = AliasesMap()) = Comparator(mode = Strict)
-  def lenient(implicit alias: Aliases = AliasesMap()) = Comparator(mode = Lenient)
+  def strict(implicit alias: Alias = AliasMap()) = Comparator(mode = Strict)
+  def lenient(implicit alias: Alias = AliasMap()) = Comparator(mode = Lenient)
 }
 

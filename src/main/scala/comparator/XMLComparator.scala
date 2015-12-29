@@ -2,7 +2,7 @@ package comparator
 
 import org.w3c.dom._
 
-case class XMLComparator(mode:Mode = Strict)(implicit alias:Aliases = AliasesMap())
+case class XMLComparator(mode: Mode = Strict)(implicit alias: Alias = AliasMap())
   extends ObjectComparator[Node] with ErrorHelper {
 
   private def withStrict(f: => Unit) = if (mode == Strict) f

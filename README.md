@@ -180,27 +180,15 @@ Usage:
 ```scala
 import comparator._
 
-implicit val aliases = AliasesMap().set(
-    "date"-> Pattern.compile("\\d{4}-\\d{2}-\\d{2}"
-)
+implicit val aliases = AliasMap().
+    add("date","\\d{4}-\\d{2}-\\d{2}").
+    add("number", Pattern.compile("\\d+"))
 
-Comparator.Strict.compare(
+Comparator.strict.compare(
   """
-    {"date":"p(date)", "fields":
-          [
-            {
-              "field1":"name"
-            }
-      ]
-    }
+    {"date":"p(date)", "cost":"p(number)"}
   """,
   """
-    {"date":"2015-11-11", "fields":
-          [
-            {
-              "field1":"name"
-            }
-          ]
-    }
+    {"date":"2015-11-11", "cost":"100"}
   """)
 ```

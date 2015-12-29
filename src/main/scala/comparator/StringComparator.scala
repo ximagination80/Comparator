@@ -2,7 +2,7 @@ package comparator
 
 import java.util.regex.Pattern
 
-case class StringComparator()(implicit alias: Aliases = AliasesMap())
+case class StringComparator()(implicit alias: Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper {
 
   @throws[ComparisonError]

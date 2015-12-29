@@ -11,9 +11,8 @@ trait Helper {
 
   this: FunSuite with Matchers =>
 
-  def prepareAliases(): Aliases = {
-    AliasesMap().set("date", "\\d{4}-\\d{2}-\\d{2}")
-  }
+  def prepareAliases(): Alias =
+    AliasMap().add("date", "\\d{4}-\\d{2}-\\d{2}")
 
   implicit val aliases = prepareAliases()
 

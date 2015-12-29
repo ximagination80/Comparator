@@ -2,7 +2,7 @@ package test
 
 import java.util.regex.Pattern
 
-import comparator.{AliasesMap, Comparator}
+import comparator.{AliasMap, Comparator}
 import org.scalatest.{FunSuite, Matchers}
 
 class ComparatorComparisonTest extends FunSuite with Matchers {
@@ -18,15 +18,28 @@ class ComparatorComparisonTest extends FunSuite with Matchers {
   test("Alias test") {
     val regexp = "\\d+"
 
-    val alias = AliasesMap()
-    alias.
-      set("1", regexp).
-      set("2", regexp).
-      set("3", Pattern.compile(regexp))
+    val alias = AliasMap().
+      add("1", regexp).
+      add("2", regexp).
+      add("3", Pattern.compile(regexp))
 
     alias.get("none") shouldEqual None
     (1 to 3).map(_.toString).foreach {
       alias.get(_).get.pattern() shouldEqual regexp
     }
+  }
+
+  test("Alias test 2"){
+    implicit val aliases = AliasMap().
+      add("date","\\d{4}-\\d{2}-\\d{2}").
+      add("number", "\\d+")
+
+    Comparator.strict.compare(
+      """
+    {"date":"p(date)", "cost":"p(number)"}
+      """,
+      """
+    {"date":"2015-11-11", "cost":"100"}
+      """)
   }
 }
