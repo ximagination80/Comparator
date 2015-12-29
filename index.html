@@ -55,9 +55,16 @@
 <h2>
 <a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency</h2>
 
-<ul>
-<li>"imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"</li>
-</ul>
+<div class="highlight highlight-source-scala"><pre><span class="pl-s"><span class="pl-pds">"</span>imagination<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>comparator_2.11<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>0.5-SNAPSHOT<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span></pre></div>
+
+<p>or</p>
+
+<div class="highlight highlight-source-scala"><pre> &lt;<span class="pl-ent">dependency</span>&gt;
+    &lt;<span class="pl-ent">groupId</span>&gt;imagination&lt;/<span class="pl-ent">groupId</span>&gt;
+    &lt;<span class="pl-ent">artifactId</span>&gt;comparator_2<span class="pl-c1">.11</span>&lt;/<span class="pl-ent">artifactId</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;<span class="pl-c1">0.5</span><span class="pl-k">-</span><span class="pl-en">SNAPSHOT</span>&lt;/<span class="pl-ent">version</span>&gt;
+    &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
+ &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
 <h1></h1>
 
@@ -67,7 +74,8 @@
 <ul>
 <li>git clone <a href="https://github.com/ximagination80/Comparator.git">https://github.com/ximagination80/Comparator.git</a>
 </li>
-<li>sbt publishLocal</li>
+<li>cd Comparator</li>
+<li>sbt publishLocal publishM2  (publishing into [ivy,m2] repo)</li>
 </ul>
 
 <h3>
@@ -238,29 +246,53 @@
 
 <div class="highlight highlight-source-scala"><pre><span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
 
-<span class="pl-k">implicit</span> <span class="pl-k">val</span> <span class="pl-en">map</span> <span class="pl-k">=</span> <span class="pl-en">Map</span>(
-    <span class="pl-s"><span class="pl-pds">"</span>date<span class="pl-pds">"</span></span><span class="pl-k">-</span><span class="pl-k">&gt;</span> <span class="pl-en">Pattern</span>.compile(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2}<span class="pl-pds">"</span></span>)
-)
+<span class="pl-k">implicit</span> <span class="pl-k">val</span> <span class="pl-en">aliases</span> <span class="pl-k">=</span> <span class="pl-en">AliasMap</span>().
+    add(<span class="pl-s"><span class="pl-pds">"</span>date<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>d{4}-<span class="pl-cce">\\</span>d{2}-<span class="pl-cce">\\</span>d{2}<span class="pl-pds">"</span></span>).
+    add(<span class="pl-s"><span class="pl-pds">"</span>number<span class="pl-pds">"</span></span>, <span class="pl-en">Pattern</span>.compile(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>d+<span class="pl-pds">"</span></span>))
 
-<span class="pl-en">Comparator</span>.<span class="pl-en">Strict</span>.compare(
+<span class="pl-en">Comparator</span>.strict.compare(
   <span class="pl-s"><span class="pl-pds">"""</span></span>
-<span class="pl-s">    {"date":"p(date)", "fields":</span>
-<span class="pl-s">          [</span>
-<span class="pl-s">            {</span>
-<span class="pl-s">              "field1":"name"</span>
-<span class="pl-s">            }</span>
-<span class="pl-s">      ]</span>
-<span class="pl-s">    }</span>
+<span class="pl-s">    {"date":"p(date)", "cost":"p(number)"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
   <span class="pl-s"><span class="pl-pds">"""</span></span>
-<span class="pl-s">    {"date":"2015-11-11", "fields":</span>
-<span class="pl-s">          [</span>
-<span class="pl-s">            {</span>
-<span class="pl-s">              "field1":"name"</span>
-<span class="pl-s">            }</span>
-<span class="pl-s">          ]</span>
-<span class="pl-s">    }</span>
+<span class="pl-s">    {"date":"2015-11-11", "cost":"100"}</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>)</pre></div>
+
+<ul>
+<li>Java support   (see examples)</li>
+</ul>
+
+<div class="highlight highlight-source-java"><pre>  <span class="pl-k">package</span> <span class="pl-smi">root</span>;
+
+  <span class="pl-k">import</span> <span class="pl-smi">comparator.Comparator</span>;
+  <span class="pl-k">import</span> <span class="pl-smi">org.junit.Test</span>;
+
+  <span class="pl-k">import</span> <span class="pl-smi">java.util.HashMap</span>;
+  <span class="pl-k">import</span> <span class="pl-smi">java.util.Map</span>;
+  <span class="pl-k">import</span> <span class="pl-smi">java.util.regex.Pattern</span>;
+
+  <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ComparatorTest</span> {
+
+      <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-k">final</span> <span class="pl-k">Map&lt;<span class="pl-smi">String</span>, <span class="pl-smi">Pattern</span>&gt;</span> <span class="pl-c1">ALIASES</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-k">HashMap&lt;<span class="pl-smi">String</span>, <span class="pl-smi">Pattern</span>&gt;</span>() {
+          {
+              put(<span class="pl-s"><span class="pl-pds">"</span>digit<span class="pl-pds">"</span></span>, <span class="pl-smi">Pattern</span><span class="pl-k">.</span>compile(<span class="pl-s"><span class="pl-pds">"</span><span class="pl-cce">\\</span>d+<span class="pl-pds">"</span></span>));
+          }
+      };
+
+      <span class="pl-k">private</span> <span class="pl-k">static</span> <span class="pl-smi">Comparator</span> <span class="pl-en">createComparator</span>() {
+          <span class="pl-k">return</span> <span class="pl-smi">Comparator</span><span class="pl-k">.</span>java()<span class="pl-k">.</span>strict(<span class="pl-c1">ALIASES</span>);
+      }
+
+      <span class="pl-k">@Test</span>
+      <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">matches</span>() <span class="pl-k">throws</span> <span class="pl-smi">Exception</span> {
+          <span class="pl-smi">String</span> expected <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>{<span class="pl-cce">\"</span>count<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>p(digit)<span class="pl-cce">\"</span>}<span class="pl-pds">"</span></span>;
+          <span class="pl-smi">String</span> actual <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>{<span class="pl-cce">\"</span>count<span class="pl-cce">\"</span>:<span class="pl-cce">\"</span>120<span class="pl-cce">\"</span>}<span class="pl-pds">"</span></span>;
+
+          createComparator()<span class="pl-k">.</span>compare(expected, actual);
+      }
+  }
+
+</pre></div>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/ximagination80/Comparator">Comparator</a> is maintained by <a href="https://github.com/ximagination80">ximagination80</a>.</span>
