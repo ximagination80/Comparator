@@ -55,14 +55,14 @@
 <h2>
 <a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency</h2>
 
-<div class="highlight highlight-source-scala"><pre><span class="pl-s"><span class="pl-pds">"</span>imagination<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>comparator_2.11<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>0.5-SNAPSHOT<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span></pre></div>
+<div class="highlight highlight-source-scala"><pre><span class="pl-s"><span class="pl-pds">"</span>imagination<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>comparator_2.11<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>0.6-SNAPSHOT<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span></pre></div>
 
 <p>or</p>
 
 <div class="highlight highlight-source-scala"><pre> &lt;<span class="pl-ent">dependency</span>&gt;
     &lt;<span class="pl-ent">groupId</span>&gt;imagination&lt;/<span class="pl-ent">groupId</span>&gt;
     &lt;<span class="pl-ent">artifactId</span>&gt;comparator_2<span class="pl-c1">.11</span>&lt;/<span class="pl-ent">artifactId</span>&gt;
-    &lt;<span class="pl-ent">version</span>&gt;<span class="pl-c1">0.5</span><span class="pl-k">-</span><span class="pl-en">SNAPSHOT</span>&lt;/<span class="pl-ent">version</span>&gt;
+    &lt;<span class="pl-ent">version</span>&gt;<span class="pl-c1">0.6</span><span class="pl-k">-</span><span class="pl-en">SNAPSHOT</span>&lt;/<span class="pl-ent">version</span>&gt;
     &lt;<span class="pl-ent">scope</span>&gt;test&lt;/<span class="pl-ent">scope</span>&gt;
  &lt;/<span class="pl-ent">dependency</span>&gt;</pre></div>
 
@@ -256,6 +256,58 @@
 <span class="pl-s">  <span class="pl-pds">"""</span></span>,
   <span class="pl-s"><span class="pl-pds">"""</span></span>
 <span class="pl-s">    {"date":"2015-11-11", "cost":"100"}</span>
+<span class="pl-s">  <span class="pl-pds">"""</span></span>)</pre></div>
+
+<ul>
+<li>Predefined patterns/functions.</li>
+</ul>
+
+<div class="highlight highlight-source-scala"><pre><span class="pl-k">import</span> <span class="pl-v">comparator.</span><span class="pl-v">_</span>
+
+<span class="pl-en">Comparator</span>.strict.compare(
+  <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">    {</span>
+<span class="pl-s">      "response" : [ {</span>
+<span class="pl-s">        "1" : "p(any)",</span>
+<span class="pl-s">        "2" : "p(digit)",</span>
+<span class="pl-s">        "3" : "p(&gt;0)",</span>
+<span class="pl-s">        "4" : "p(&gt;=0)",</span>
+<span class="pl-s">        "5" : "p(&lt;0)",</span>
+<span class="pl-s">        "6" : "p(&lt;=0)",</span>
+<span class="pl-s">        "7" : "p(money)",</span>
+<span class="pl-s">        "8" : "p(email)",</span>
+<span class="pl-s">        "9" : "p(ip)",</span>
+<span class="pl-s">        "10" : "p(url)",</span>
+<span class="pl-s">        "11" : "p(uuid)",</span>
+<span class="pl-s">        "12" : "p(color)",</span>
+<span class="pl-s">        "13" : "p(y-m-d)",</span>
+<span class="pl-s">        "14" : "p(d-m-y)",</span>
+<span class="pl-s">        "15" : "p(y/m/d)",</span>
+<span class="pl-s">        "16" : "p(d/m/y)"</span>
+<span class="pl-s">      } ]</span>
+<span class="pl-s">    }</span>
+<span class="pl-s">  <span class="pl-pds">"""</span></span>,
+  <span class="pl-s"><span class="pl-pds">"""</span></span>
+<span class="pl-s">    {</span>
+<span class="pl-s">      "response" : [ {</span>
+<span class="pl-s">        "1" : "1qaA2../=2313((78^(_}|{$*%()$*!)__+#(!@%)(!@*@+_#%_&gt;?&lt;LKmasO",</span>
+<span class="pl-s">        "2" : "-100",</span>
+<span class="pl-s">        "3" : "10",</span>
+<span class="pl-s">        "4" : "+100",</span>
+<span class="pl-s">        "5" : "-1",</span>
+<span class="pl-s">        "6" : "0",</span>
+<span class="pl-s">        "7" : "100.10",</span>
+<span class="pl-s">        "8" : "ximagination80@gmail.com",</span>
+<span class="pl-s">        "9" : "10.10.10.10",</span>
+<span class="pl-s">        "10" : "http://google.com",</span>
+<span class="pl-s">        "11" : "550e8400-e29b-41d4-a716-446655440000",</span>
+<span class="pl-s">        "12" : "#1f1f1f",</span>
+<span class="pl-s">        "13" : "2015-11-12",</span>
+<span class="pl-s">        "14" : "12-11-2015",</span>
+<span class="pl-s">        "15" : "2015/11/12",</span>
+<span class="pl-s">        "16" : "12/11/2015"</span>
+<span class="pl-s">      } ]</span>
+<span class="pl-s">    }</span>
 <span class="pl-s">  <span class="pl-pds">"""</span></span>)</pre></div>
 
 <ul>
