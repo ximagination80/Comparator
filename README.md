@@ -205,24 +205,7 @@ Comparator.strict.compare(
   """)
 ```
 
-* Predefined patterns/functions.Use "p(function name)"
-
- > any
- > digit
- > >0
- > >=0
- > <0
- > <=0
- > money
- > email
- > ip
- > url
- > uuid
- > color
- > y-m-d
- > d-m-y
- > y/m/d
- > d/m/y
+* Predefined patterns/functions.
 
 ```scala
 import comparator._
