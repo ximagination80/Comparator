@@ -18,23 +18,25 @@ case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
       raise(expected.isEmpty || actual.isEmpty,
         "Content is not equal and type is not the same. Unable to compare trees.")
 
-      val result = Parser(expected, actual).parse()
-
-      try {
-        result match {
-          case (Json(e), Json(a)) =>
+      Parser(expected, actual).parse() match {
+        case (Json(e), Json(a)) =>
+          wrapToDefaultError {
             JsonComparator(mode).compare(e, a)
+          }
 
-          case (Xml(e), Xml(a)) =>
+        case (Xml(e), Xml(a)) =>
+          wrapToDefaultError {
             XMLComparator(mode).compare(e, a)
+          }
 
-          case _ =>
-            raise("Content is not equal and type is not the same. Unable to compare trees.")
-        }
-      } catch {
-        case e: Throwable => raise(e.getMessage)
+        case _ =>
+          raise("Content is not equal and type is not the same. Unable to compare trees.")
       }
     }
+  }
+
+  def wrapToDefaultError(function: => Unit): Unit = try function catch {
+    case e: Throwable => raise(e.getMessage)
   }
 
   case class Parser(expected: String, actual: String) {

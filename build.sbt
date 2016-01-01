@@ -1,6 +1,6 @@
 name := "Comparator"
 
-version := "0.5-SNAPSHOT"
+version := "0.6-SNAPSHOT"
 
 organization := "imagination"
 
@@ -18,13 +18,16 @@ homepage := Some(url("https://github.com/ximagination80/Comparator"))
 
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % Test
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
 )
+
+libraryDependencies ++= Seq(
+  "org.scalatest" % "scalatest_2.11" % "2.2.4"
+).map(_ % Test)
 
 coverageEnabled.in(Test, test) := true
 
-coverageMinimum := 90
+coverageMinimum := 95
 
 coverageFailOnMinimum := true
 

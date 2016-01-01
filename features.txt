@@ -1,3 +1,0 @@
-1. Examples for java/scala/groovy/cmd
-2. Documentation extension
-3. Deployment to Maven Central

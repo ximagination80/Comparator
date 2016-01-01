@@ -8,11 +8,11 @@ import org.scalatest.{FunSuite, Matchers}
 
 class ComparatorComparisonTest extends FunSuite with Matchers {
 
-  test("Field Comparator.strict == STRICT") {
+  test("Field Comparator.strict == Strict") {
     Comparator.strict.mode shouldBe comparator.Strict
   }
 
-  test("Field Comparator.lenient == LENIENT") {
+  test("Field Comparator.lenient == Lenient") {
     Comparator.lenient.mode shouldBe comparator.Lenient
   }
 

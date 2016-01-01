@@ -24,7 +24,7 @@ The Apache License.
 ## Dependency
 
 ```scala
-"imagination" % "comparator_2.11" % "0.5-SNAPSHOT" % "test"
+"imagination" % "comparator_2.11" % "0.6-SNAPSHOT" % "test"
 ```
 or
 
@@ -32,7 +32,7 @@ or
  <dependency>
     <groupId>imagination</groupId>
     <artifactId>comparator_2.11</artifactId>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.6-SNAPSHOT</version>
     <scope>test</scope>
  </dependency>
 ```
@@ -202,6 +202,75 @@ Comparator.strict.compare(
   """,
   """
     {"date":"2015-11-11", "cost":"100"}
+  """)
+```
+
+* Predefined patterns/functions.Use "p(function name)"
+
+ > any
+ > digit
+ > >0
+ > >=0
+ > <0
+ > <=0
+ > money
+ > email
+ > ip
+ > url
+ > uuid
+ > color
+ > y-m-d
+ > d-m-y
+ > y/m/d
+ > d/m/y
+
+```scala
+import comparator._
+
+Comparator.strict.compare(
+  """
+    {
+      "response" : [ {
+        "1" : "p(any)",
+        "2" : "p(digit)",
+        "3" : "p(>0)",
+        "4" : "p(>=0)",
+        "5" : "p(<0)",
+        "6" : "p(<=0)",
+        "7" : "p(money)",
+        "8" : "p(email)",
+        "9" : "p(ip)",
+        "10" : "p(url)",
+        "11" : "p(uuid)",
+        "12" : "p(color)",
+        "13" : "p(y-m-d)",
+        "14" : "p(d-m-y)",
+        "15" : "p(y/m/d)",
+        "16" : "p(d/m/y)"
+      } ]
+    }
+  """,
+  """
+    {
+      "response" : [ {
+        "1" : "1qaA2../=2313((78^(_}|{$*%()$*!)__+#(!@%)(!@*@+_#%_>?<LKmasO",
+        "2" : "-100",
+        "3" : "10",
+        "4" : "+100",
+        "5" : "-1",
+        "6" : "0",
+        "7" : "100.10",
+        "8" : "ximagination80@gmail.com",
+        "9" : "10.10.10.10",
+        "10" : "http://google.com",
+        "11" : "550e8400-e29b-41d4-a716-446655440000",
+        "12" : "#1f1f1f",
+        "13" : "2015-11-12",
+        "14" : "12-11-2015",
+        "15" : "2015/11/12",
+        "16" : "12/11/2015"
+      } ]
+    }
   """)
 ```
 

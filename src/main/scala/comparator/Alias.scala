@@ -10,7 +10,7 @@ trait Alias {
 }
 
 case class AliasMap() extends Alias {
-  private val map = scala.collection.mutable.Map[String,Pattern]()
+  private val map = scala.collection.mutable.Map[String,Pattern]() ++ AliasDefault.aliases
 
   def add(alias: String, regexp: String) = {
     map.put(alias, compile(regexp))

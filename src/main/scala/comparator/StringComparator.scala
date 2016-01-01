@@ -2,33 +2,37 @@ package comparator
 
 import java.util.regex.Pattern
 
+import comparator.PatternExtractor.group
+
 case class StringComparator()(implicit alias: Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper {
 
   @throws[ComparisonError]
   def compare(expected: String, actual: String) {
-    if (expected != actual && expected != StringComparator.any) {
-      val matcher = StringComparator.patternExtractor.matcher(expected)
-      matcher.matches() match {
-        case true =>
-          val aliasOrRawPattern = matcher.group(1)
-          val pattern = alias.get(aliasOrRawPattern).getOrElse(compile(aliasOrRawPattern))
+    if (expected != actual) {
+      group(expected) match {
 
+        case Some(aliasOrRawPattern)=>
+          val pattern = alias.get(aliasOrRawPattern).getOrElse(compile(aliasOrRawPattern))
           raise(!pattern.matcher(actual).matches(),
             s"Property $actual should match pattern $aliasOrRawPattern")
-
-        case false =>
+          
+        case None=>
           raise(s"Property $expected is not equal to $actual")
       }
     }
   }
 
   def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
-    case e: Exception => throw new RuntimeException(s"Illegal Pattern $pattern")
+    case e: Exception => throw new RuntimeException(s"Illegal Pattern $pattern",e)
   }
 }
 
-object StringComparator {
-  val any = "p(.*)"
-  val patternExtractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+object PatternExtractor {
+  private val extractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
+
+  def group(v: String): Option[String] = {
+    val m = extractor.matcher(v)
+    if (m.matches()) Some(m.group(1)) else None
+  }
 }

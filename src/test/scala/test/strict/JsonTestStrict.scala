@@ -23,6 +23,6 @@ class JsonTestStrict extends FunSuite with Matchers with Helper {
     14 -> "Property 06-06-2015 should match pattern date"
   ).foreach((e) => errorJson(e._1, e._2))
 
-  (1 to 6) foreach okJson
+  (1 to 7) foreach okJson
 
 }
