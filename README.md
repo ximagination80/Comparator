@@ -51,16 +51,10 @@ or
 ==
 ### How to use:
 
-* Comparator.strict.compare("a","b") or Comparator(mode = Strict).compare("a","b")
-* Comparator.lenient.compare("a","b") or Comparator(mode = Lenient).compare("a","b")
-
-==
-Usage:
-
 ```scala
   import comparator._
 
-  Comparator(mode = Strict).compare(
+  Comparator.strict.compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -77,7 +71,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = Strict).compare(
+  Comparator.strict.compare(
   """
     {"name":"p([a-z]+)","date":"2015-11-01"}
   """,
@@ -94,7 +88,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = Strict).compare(
+  Comparator.strict.compare(
   """
     {"name":"p([a-z]+)","date":"p(.*)"}
   """,
@@ -111,7 +105,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = Strict).compare(
+  Comparator.strict.compare(
   """
     {"name":"p([a-z]+)","date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -125,7 +119,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = Lenient).compare(
+  Comparator.lenient.compare(
   """
     {"date":"p(\\d{4}-\\d{2}-\\d{2})"}
   """,
@@ -141,7 +135,7 @@ Usage:
 ```scala
   import comparator._
 
-  Comparator(mode = Lenient).compare(
+  Comparator.lenient.compare(
   """
     {"date":"p(\\d{4}-\\d{2}-\\d{2})", "fields":
           [
@@ -288,6 +282,4 @@ Comparator.strict.compare(
           createComparator().compare(expected, actual);
       }
   }
-
-
 ```
