@@ -4,10 +4,11 @@ import java.io.StringReader
 import java.util.regex.Pattern
 import javax.xml.parsers.DocumentBuilderFactory.newInstance
 
-import com.fasterxml.jackson.databind.{JsonNode, ObjectMapper}
-import org.w3c.dom.Document
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.xml.sax.InputSource
 import java.util.{Map => JMap}
+
+import scala.util.Try
 
 case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper{
@@ -18,51 +19,24 @@ case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
       raise(expected.isEmpty || actual.isEmpty,
         "Content is not equal and type is not the same. Unable to compare trees.")
 
-      Parser(expected, actual).parse() match {
-        case (Json(e), Json(a)) =>
-          wrapToDefaultError {
-            JsonComparator(mode).compare(e, a)
-          }
+      def executeUnsafe():Unit = (expected, actual) match {
+        case (Json(e), Json(a)) => JsonComparator(mode).compare(e, a)
+        case (Xml(e), Xml(a)) => XMLComparator(mode).compare(e, a)
+        case _ => raise("Content is not equal and type is not the same. Unable to compare trees.")
+      }
 
-        case (Xml(e), Xml(a)) =>
-          wrapToDefaultError {
-            XMLComparator(mode).compare(e, a)
-          }
-
-        case _ =>
-          raise("Content is not equal and type is not the same. Unable to compare trees.")
+      try executeUnsafe() catch {
+        case e: Throwable => raise(e.getMessage)
       }
     }
   }
 
-  def wrapToDefaultError(function: => Unit): Unit = try function catch {
-    case e: Throwable => raise(e.getMessage)
+  object Json {
+    def unapply(v: String) = Try(new ObjectMapper().readTree(v)).toOption
   }
-
-  case class Parser(expected: String, actual: String) {
-    def parse(): (ParseResult, ParseResult) =
-      (toParseResult(expected), toParseResult(actual))
-
-    def toParseResult(value: String): ParseResult =
-      asJson(value).orElse(asXML(value)).getOrElse(Unknown(value))
+  object Xml {
+    def unapply(v: String) = Try(newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(v)))).toOption
   }
-
-  def asJson(v: String): Option[ParseResult] =
-    try Some(Json(new ObjectMapper().readTree(v))) catch {
-      case e: Throwable =>
-        None
-    }
-
-  def asXML(v: String): Option[Xml] =
-    try Some(Xml(newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(v))))) catch {
-      case e: Throwable =>
-        None
-    }
-
-  sealed trait ParseResult
-  case class Json(value: JsonNode) extends ParseResult
-  case class Xml(value: Document) extends ParseResult
-  case class Unknown(value:String) extends ParseResult
 }
 
 object Comparator {

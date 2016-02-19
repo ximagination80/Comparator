@@ -2,16 +2,14 @@ package comparator
 
 import java.util.regex.Pattern
 
-import comparator.PatternExtractor.group
-
 case class StringComparator()(implicit alias: Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper {
 
   @throws[ComparisonError]
   def compare(expected: String, actual: String) {
     if (expected != actual) {
-      group(expected) match {
 
+      extractRegexp(expected) match {
         case Some(aliasOrRawPattern)=>
           val pattern = alias.get(aliasOrRawPattern).getOrElse(compile(aliasOrRawPattern))
           raise(!pattern.matcher(actual).matches(),
@@ -23,16 +21,10 @@ case class StringComparator()(implicit alias: Alias = AliasMap())
     }
   }
 
-  def compile(pattern: String): Pattern = try Pattern.compile(pattern, Pattern.DOTALL) catch {
+  def compile(pattern: String) = try Pattern.compile(pattern, Pattern.DOTALL) catch {
     case e: Exception => throw new RuntimeException(s"Illegal Pattern $pattern",e)
   }
-}
 
-object PatternExtractor {
-  private val extractor = Pattern.compile("^p\\((.*)\\)$", Pattern.MULTILINE)
-
-  def group(v: String): Option[String] = {
-    val m = extractor.matcher(v)
-    if (m.matches()) Some(m.group(1)) else None
-  }
+  def extractRegexp(v: String) =
+    if (v.length > 3 && v.startsWith("p(") && v.endsWith(")")) Some(v.substring(2, v.length - 1)) else None
 }
