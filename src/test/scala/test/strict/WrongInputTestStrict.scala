@@ -1,6 +1,6 @@
 package test.strict
 
-import comparator.{ComparisonError, Comparator, Strict}
+import org.imagination.comparator.{Strict, ComparisonError, Comparator}
 import org.scalatest.{FunSuite, Matchers}
 
 class WrongInputTestStrict extends FunSuite with Matchers {

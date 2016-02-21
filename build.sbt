@@ -1,8 +1,8 @@
+organization := "org.imagination"
+
 name := "Comparator"
 
-version := "0.6-SNAPSHOT"
-
-organization := "imagination"
+version := "1.0"
 
 scalaVersion := "2.11.7"
 

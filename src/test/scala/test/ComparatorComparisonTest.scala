@@ -3,17 +3,18 @@ package test
 import java.util
 import java.util.regex.Pattern
 
-import comparator.{AliasMap, Comparator}
+import org.imagination
+import org.imagination.comparator.{AliasMap, Comparator, Lenient, Strict}
 import org.scalatest.{FunSuite, Matchers}
 
 class ComparatorComparisonTest extends FunSuite with Matchers {
 
   test("Field Comparator.strict == Strict") {
-    Comparator.strict.mode shouldBe comparator.Strict
+    Comparator.strict.mode shouldBe Strict
   }
 
   test("Field Comparator.lenient == Lenient") {
-    Comparator.lenient.mode shouldBe comparator.Lenient
+    Comparator.lenient.mode shouldBe Lenient
   }
 
   test("Alias test") {
@@ -50,9 +51,9 @@ class ComparatorComparisonTest extends FunSuite with Matchers {
 
     val cmp = Comparator.java()
 
-    cmp.lenient.mode shouldBe comparator.Lenient
-    cmp.lenient(newJMap()).mode shouldBe comparator.Lenient
-    cmp.lenient(map).mode shouldBe comparator.Lenient
+    cmp.lenient.mode shouldBe imagination.comparator.Lenient
+    cmp.lenient(newJMap()).mode shouldBe imagination.comparator.Lenient
+    cmp.lenient(map).mode shouldBe imagination.comparator.Lenient
   }
 
   test("Object companion strict java support test") {
@@ -61,9 +62,9 @@ class ComparatorComparisonTest extends FunSuite with Matchers {
 
     val cmp = Comparator.java()
 
-    cmp.strict.mode shouldBe comparator.Strict
-    cmp.strict(newJMap()).mode shouldBe comparator.Strict
-    cmp.strict(map).mode shouldBe comparator.Strict
+    cmp.strict.mode shouldBe imagination.comparator.Strict
+    cmp.strict(newJMap()).mode shouldBe imagination.comparator.Strict
+    cmp.strict(map).mode shouldBe imagination.comparator.Strict
   }
 
   test("Comparator to alias check") {

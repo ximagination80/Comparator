@@ -1,6 +1,6 @@
 package test
 
-import comparator.{AliasMap, AliasDefault}
+import org.imagination.comparator.{AliasMap, AliasDefault}
 import org.scalatest.{FunSuite, Matchers}
 
 class DefaultAliasesTest extends FunSuite with Matchers{

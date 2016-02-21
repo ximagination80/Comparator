@@ -1,4 +1,4 @@
-package comparator
+package org.imagination.comparator
 
 import java.io.StringReader
 import java.util.regex.Pattern
@@ -19,7 +19,7 @@ case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
       raise(expected.isEmpty || actual.isEmpty,
         "Content is not equal and type is not the same. Unable to compare trees.")
 
-      def executeUnsafe():Unit = (expected, actual) match {
+      def executeUnsafe(): Unit = (expected, actual) match {
         case (Json(e), Json(a)) => JsonComparator(mode).compare(e, a)
         case (Xml(e), Xml(a)) => XMLComparator(mode).compare(e, a)
         case _ => raise("Content is not equal and type is not the same. Unable to compare trees.")
@@ -42,25 +42,17 @@ case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
 object Comparator {
   def java() = JavaComparator
 
-  def strict(implicit alias: Alias = AliasMap()) =
-    Comparator(mode = Strict)
-
-  def lenient(implicit alias: Alias = AliasMap()) =
-    Comparator(mode = Lenient)
+  def strict(implicit alias: Alias = AliasMap()) = Comparator(mode = Strict)
+  def lenient(implicit alias: Alias = AliasMap()) = Comparator(mode = Lenient)
 }
 
 object JavaComparator {
-  def lenient(map: JMap[String, Pattern]) =
-    Comparator(mode = Lenient)(toAlias(map))
 
-  def lenient =
-    Comparator(mode = Lenient)(AliasMap())
+  def lenient = Comparator(mode = Lenient)(AliasMap())
+  def lenient(map: JMap[String, Pattern]) = Comparator(mode = Lenient)(toAlias(map))
 
-  def strict(map: JMap[String, Pattern]) =
-    Comparator(mode = Strict)(toAlias(map))
-
-  def strict =
-    Comparator(mode = Strict)(AliasMap())
+  def strict = Comparator(mode = Strict)(AliasMap())
+  def strict(map: JMap[String, Pattern]) =Comparator(mode = Strict)(toAlias(map))
 
   def toAlias(map: JMap[String, Pattern]): AliasMap = {
     import scala.collection.JavaConversions._

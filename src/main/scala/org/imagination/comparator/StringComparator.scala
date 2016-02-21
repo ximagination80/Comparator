@@ -1,4 +1,4 @@
-package comparator
+package org.imagination.comparator
 
 import java.util.regex.Pattern
 

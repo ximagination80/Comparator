@@ -2,7 +2,7 @@ package test
 
 import java.io.File
 
-import comparator._
+import org.imagination.comparator._
 import org.scalatest.{FunSuite, Matchers}
 
 import scala.io.Source

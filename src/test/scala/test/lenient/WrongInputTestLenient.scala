@@ -1,6 +1,6 @@
 package test.lenient
 
-import comparator.{Comparator, ComparisonError, Lenient}
+import org.imagination.comparator.{Lenient, ComparisonError, Comparator}
 import org.scalatest.{FunSuite, Matchers}
 
 class WrongInputTestLenient extends FunSuite with Matchers {

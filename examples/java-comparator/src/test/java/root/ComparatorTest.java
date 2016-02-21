@@ -1,6 +1,6 @@
 package root;
 
-import comparator.Comparator;
+import org.imagination.comparator.Comparator;
 import org.junit.Test;
 
 import java.util.HashMap;

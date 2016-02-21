@@ -24,15 +24,15 @@ The Apache License.
 ## Dependency
 
 ```scala
-"imagination" % "comparator_2.11" % "0.6-SNAPSHOT" % "test"
+"org.imagination" % "comparator_2.11" % "1.0" % "test"
 ```
 or
 
 ```scala
  <dependency>
-    <groupId>imagination</groupId>
+    <groupId>org.imagination</groupId>
     <artifactId>comparator_2.11</artifactId>
-    <version>0.6-SNAPSHOT</version>
+    <version>1.0</version>
     <scope>test</scope>
  </dependency>
 ```
