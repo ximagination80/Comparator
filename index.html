@@ -1,39 +1,48 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html>
   <head>
-    <meta charset="UTF-8">
-    <title>Comparator by ximagination80</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body>
-    <section class="page-header">
-      <h1 class="project-name">Comparator</h1>
-      <h2 class="project-tagline">Scala/Java Json/Xml tree comparator. Main aim is to use such comparator in unit/functional/regression testing. </h2>
-      <a href="https://github.com/ximagination80/Comparator" class="btn">View on GitHub</a>
-      <a href="https://github.com/ximagination80/Comparator/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/ximagination80/Comparator/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <section class="main-content">
-      <p><a href="https://travis-ci.org/ximagination80/Comparator"><img src="https://travis-ci.org/ximagination80/Comparator.png" alt="Build Status"></a>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Comparator by ximagination80</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Comparator</h1>
+        <h2>Scala/Java Json/Xml tree comparator. Main aim is to use such comparator in unit/functional/regression testing. </h2>
+        <a href="https://github.com/ximagination80/Comparator" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><a href="https://travis-ci.org/ximagination80/Comparator"><img src="https://travis-ci.org/ximagination80/Comparator.png" alt="Build Status"></a>
 <a href="https://codecov.io/github/ximagination80/Comparator?branch=master"><img src="https://codecov.io/github/ximagination80/Comparator/coverage.svg?branch=master" alt="codecov.io"></a>
 <a href="https://gitter.im/ximagination80/Comparator?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Gitter"></a>
 <a href="http://www.apache.org/licenses/LICENSE-2.0.txt"><img src="http://img.shields.io/:license-Apache%202-red.svg" alt="License"></a></p>
 
 <h1>
-<a id="xmljson-template-comparator" class="anchor" href="#xmljson-template-comparator" aria-hidden="true"><span class="octicon octicon-link"></span></a>Xml,Json template comparator</h1>
+<a id="xmljson-template-comparator" class="anchor" href="#xmljson-template-comparator" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Xml,Json template comparator</h1>
 
 <h1>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h1>
 
 <p>The Apache License.</p>
 
 <h1>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h1>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
 
 <ul>
 <li>Unit testing (can replace assert)</li>
@@ -42,7 +51,7 @@
 </ul>
 
 <h1>
-<a id="assert-list" class="anchor" href="#assert-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Assert list</h1>
+<a id="assert-list" class="anchor" href="#assert-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assert list</h1>
 
 <ul>
 <li>Incorrect types (Expected Null but was String etc)</li>
@@ -53,7 +62,7 @@
 </ul>
 
 <h2>
-<a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency</h2>
+<a id="dependency" class="anchor" href="#dependency" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependency</h2>
 
 <div class="highlight highlight-source-scala"><pre><span class="pl-s"><span class="pl-pds">"</span>imagination<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>comparator_2.11<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>0.6-SNAPSHOT<span class="pl-pds">"</span></span> <span class="pl-k">%</span> <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span></pre></div>
 
@@ -69,7 +78,7 @@
 <h1></h1>
 
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <ul>
 <li>git clone <a href="https://github.com/ximagination80/Comparator.git">https://github.com/ximagination80/Comparator.git</a>
@@ -79,7 +88,7 @@
 </ul>
 
 <h3>
-<a id="dependency-list" class="anchor" href="#dependency-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependency list</h3>
+<a id="dependency-list" class="anchor" href="#dependency-list" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dependency list</h3>
 
 <ul>
 <li>"com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"</li>
@@ -89,7 +98,7 @@
 <h1></h1>
 
 <h3>
-<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use:</h3>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use:</h3>
 
 <ul>
 <li>Comparator.strict.compare("a","b") or Comparator(mode = Strict).compare("a","b")</li>
@@ -238,7 +247,7 @@
 </ul>
 
 <h1>
-<a id="additional-features" class="anchor" href="#additional-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional features</h1>
+<a id="additional-features" class="anchor" href="#additional-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional features</h1>
 
 <ul>
 <li>Custom pattern registration</li>
@@ -345,14 +354,24 @@
   }
 
 </pre></div>
+        </section>
 
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/ximagination80/Comparator">Comparator</a> is maintained by <a href="https://github.com/ximagination80">ximagination80</a>.</span>
+        <aside id="sidebar">
+          <a href="https://github.com/ximagination80/Comparator/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/ximagination80/Comparator/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
 
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
+          <p class="repo-owner"><a href="https://github.com/ximagination80/Comparator"></a> is maintained by <a href="https://github.com/ximagination80">ximagination80</a>.</p>
 
-    </section>
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
 
   
   </body>
