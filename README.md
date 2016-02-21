@@ -52,7 +52,7 @@ or
 ### How to use:
 
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.strict.compare(
   """
@@ -69,7 +69,7 @@ or
 
 ==
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.strict.compare(
   """
@@ -86,7 +86,7 @@ or
 
 ==
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.strict.compare(
   """
@@ -103,7 +103,7 @@ or
 
 ==
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.strict.compare(
   """
@@ -117,7 +117,7 @@ or
 
 ==
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.lenient.compare(
   """
@@ -133,7 +133,7 @@ or
 
 ==
 ```scala
-  import comparator._
+  import org.imagination.comparator._
 
   Comparator.lenient.compare(
   """
@@ -184,7 +184,7 @@ or
 * Custom pattern registration
 
 ```scala
-import comparator._
+import org.imagination.comparator._
 
 implicit val aliases = AliasMap().
     add("date","\\d{4}-\\d{2}-\\d{2}").
@@ -202,7 +202,7 @@ Comparator.strict.compare(
 * Predefined patterns/functions.
 
 ```scala
-import comparator._
+import org.imagination.comparator._
 
 Comparator.strict.compare(
   """
@@ -255,7 +255,7 @@ Comparator.strict.compare(
 ```java
   package root;
 
-  import comparator.Comparator;
+  import org.imagination.comparator.Comparator;
   import org.junit.Test;
 
   import java.util.HashMap;
