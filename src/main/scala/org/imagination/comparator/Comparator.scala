@@ -13,7 +13,6 @@ import scala.util.Try
 case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper{
 
-  @throws[ComparisonError]
   override def compare(expected: String, actual: String): Unit = {
     if (expected != actual) {
       raise(expected.isEmpty || actual.isEmpty,
