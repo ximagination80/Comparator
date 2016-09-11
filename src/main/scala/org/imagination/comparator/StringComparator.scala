@@ -5,7 +5,6 @@ import java.util.regex.Pattern
 case class StringComparator(mode: Mode)(implicit alias: Alias = AliasMap())
   extends ObjectComparator[String] with ErrorHelper {
 
-  @throws[ComparisonError]
   def compare(expected: String, actual: String) {
     if (expected != actual) {
 
