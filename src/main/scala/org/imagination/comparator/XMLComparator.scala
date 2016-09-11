@@ -22,7 +22,7 @@ case class XMLComparator(mode: Mode = Strict)(implicit alias: Alias = AliasMap()
         s"Additional attributes found in actual document for node ${actual.getNodeName}"))
     }
     
-    StringComparator().compare(expected.getNodeValue, actual.getNodeValue)
+    StringComparator(mode).compare(expected.getNodeValue, actual.getNodeValue)
 
     expected.hasChildNodes match {
       case true=>
@@ -54,7 +54,7 @@ case class XMLComparator(mode: Mode = Strict)(implicit alias: Alias = AliasMap()
 
     expectedSeq.foreach { e =>
       actualSeq.find(_._1 == e._1).fold(raise(s"Attribute with name ${e._1} not found")) { a =>
-        StringComparator().compare(e._2, a._2)
+        StringComparator(mode).compare(e._2, a._2)
       }
     }
   }

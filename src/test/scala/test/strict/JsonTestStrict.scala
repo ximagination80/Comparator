@@ -20,9 +20,10 @@ class JsonTestStrict extends FunSuite with Matchers with Helper {
     11 -> "Property abs should match pattern \\d+",
     12 -> "Illegal Pattern ([a-z]+",
     13 -> "Expected NULL but was NUMBER",
-    14 -> "Property 06-06-2015 should match pattern date"
+    14 -> "Property 06-06-2015 should match pattern date",
+    15 -> "Property test should match pattern digit"
   ).foreach((e) => errorJson(e._1, e._2))
 
-  (1 to 7) foreach okJson
+  (1 to 8) foreach okJson
 
 }
