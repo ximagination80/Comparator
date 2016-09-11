@@ -2,8 +2,7 @@ package org.imagination.comparator
 
 import java.util.regex.Pattern
 
-case class StringComparator(mode: Mode)(implicit alias: Alias = AliasMap())
-  extends ObjectComparator[String] with ErrorHelper {
+case class StringComparator(mode: Mode)(implicit alias: Alias) extends ObjectComparator[String] with ErrorHelper {
 
   def compare(expected: String, actual: String) {
     if (expected != actual) {
@@ -18,7 +17,7 @@ case class StringComparator(mode: Mode)(implicit alias: Alias = AliasMap())
         case TreeComparison(tree) =>
           Comparator(mode).compare(tree, actual)
 
-        case None =>
+        case Empty =>
           raise(s"Property $expected is not equal to $actual")
       }
     }
@@ -28,19 +27,23 @@ case class StringComparator(mode: Mode)(implicit alias: Alias = AliasMap())
     case e: Exception => throw new RuntimeException(s"Illegal Pattern $pattern", e)
   }
 
-  def extractAction(v: String) = {
+  def extractAction(v: String):Result = {
     if (v.length > 3) {
       if (v.startsWith("p(") && v.endsWith(")"))
         PatternComparison(v.substring(2, v.length - 1))
       else if (v.startsWith("t(") && v.endsWith(")")) {
         TreeComparison(v.substring(2, v.length - 1))
+      } else {
+        Empty
       }
     } else {
-      None
+      Empty
     }
   }
 
-  case class PatternComparison(pattern: String)
-  case class TreeComparison(tree: String)
+  trait Result
+  case class PatternComparison(pattern: String) extends Result
+  case class TreeComparison(tree: String) extends Result
+  object Empty extends Result
 
 }
