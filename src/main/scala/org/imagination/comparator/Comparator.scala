@@ -21,13 +21,18 @@ case class Comparator(mode:Mode)(implicit alias:Alias = AliasMap())
     raise(expected.isEmpty, "Content doesn't match")
     raise(actual.isEmpty, "Content doesn't match")
 
+    def doesNotMatch() = raise("Content doesn't match")
+
     def executeUnsafe(): Unit = (expected, actual) match {
-      case (Json(e), Json(a)) =>
-        JsonComparator(mode).compare(e, a)
-      case (Xml(e), Xml(a)) =>
-        XMLComparator(mode).compare(e, a)
-      case _ =>
-        raise("Content doesn't match")
+      case (Json(e), Json(a)) => JsonComparator(mode).compare(e, a)
+      case (Json(_), _) => doesNotMatch()
+      case (_, Json(_)) => doesNotMatch()
+
+      case (Xml(e), Xml(a)) => XMLComparator(mode).compare(e, a)
+      case (Xml(_), _) => doesNotMatch()
+      case (_, Xml(_)) => doesNotMatch()
+
+      case _ => StringLinesComparator(mode).compare(expected, actual)
     }
 
     try executeUnsafe() catch {
