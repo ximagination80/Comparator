@@ -9,7 +9,8 @@ class TxtTestStrict extends FunSuite with Matchers with Helper {
   Seq(
     1 -> "Content doesn't match",
     2 -> "Content doesn't match",
-    3 -> "Line Some text 123 should match [a-zA-Z]"
+    3 -> "Line Some text 123 should match [a-zA-Z]",
+    4 -> "Illegal Pattern [a-z\\/A-Z"
   ).foreach((e) => errorTxt(e._1, e._2))
 
   (1 to 2) foreach okTxt

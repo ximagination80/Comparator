@@ -12,13 +12,11 @@ trait Alias {
 case class AliasMap() extends Alias {
   private val map = scala.collection.mutable.Map[String,Pattern]() ++ AliasDefault.aliases
 
-  def add(alias: String, regexp: String) = {
-    map.put(alias, compile(regexp))
-    this
-  }
+  def add(alias: String, regexp: String): AliasMap =
+    add(alias, compile(regexp))
 
-  def add(alias: String, pattern: Pattern) = {
-    map.put(alias, pattern)
+  def add(alias: String, pattern: Pattern):AliasMap = {
+    map(alias) = pattern
     this
   }
   

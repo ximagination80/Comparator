@@ -23,7 +23,9 @@ class XmlTestStrict extends FunSuite with Matchers with Helper {
     14 -> "Attributes length not match. Found unexpected property [Set(gender1)]",
     15 -> "Property Large should match pattern [large]+",
     16 -> "Property Red is not equal to red",
-    17 -> "Illegal Pattern ([a-z]+"
+    17 -> "Illegal Pattern ([a-z]+",
+    18 -> "Content doesn't match",
+    19 -> "Content doesn't match"
   ).foreach((e) => errorXml(e._1, e._2))
 
   (1 to 2) foreach okXml
