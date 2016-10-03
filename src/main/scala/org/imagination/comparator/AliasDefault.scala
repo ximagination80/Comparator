@@ -106,7 +106,7 @@ trait AliasDefault {
       + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"
       + "(?:\\b|$)").p
 
-  def notEmpty() = ".+".p
+  def notEmpty() = ".+".p(DOTALL)
 
   def datetime() = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:.\\d)?".p
 }
