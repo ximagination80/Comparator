@@ -24,7 +24,7 @@ The Apache License.
 ## Dependency
 
 ```scala
-"org.imagination" % "comparator_2.11" % "1.0" % "test"
+"org.imagination" % "comparator_2.11" % "1.1" % "test"
 ```
 or
 
@@ -32,7 +32,7 @@ or
  <dependency>
     <groupId>org.imagination</groupId>
     <artifactId>comparator_2.11</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <scope>test</scope>
  </dependency>
 ```
@@ -45,8 +45,9 @@ or
 
 ### Dependency list
 
-* "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3"
-* "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
+* "com.fasterxml.jackson.core" % "jackson-core" %  "2.8.3",
+* "com.fasterxml.jackson.core" % "jackson-databind" %  "2.8.3",
+* "com.google.code.gson" % "gson" % "2.7"
 
 ==
 ### How to use:
@@ -62,7 +63,7 @@ or
     {"name":"imagination","date":"2015-11-01"}
   """)
 ```
-  match ( Comparator won't throw ComparisonError )
+  match ( Comparator won't throw MatchException )
 
 * Will compare name by pattern template [a-z]+ (Pattern.DOTALL flag)
 * Will compare date by pattern template \\d{4}-\\d{2}-\\d{2} (Pattern.DOTALL flag)
@@ -79,7 +80,7 @@ or
     {"name":"imagination","date":"2015-11-01"}
   """)
 ```
-  match ( Comparator won't throw ComparisonError )
+  match ( Comparator won't throw MatchException )
 
 * Will compare name by pattern template [a-z]+ (Pattern.DOTALL flag)
 * Will compare date by equals strategy
@@ -96,7 +97,7 @@ or
     {"name":"imagination","date":"blah or 01-01-2015"}
   """)
 ```
-  match ( Comparator won't throw ComparisonError )
+  match ( Comparator won't throw MatchException )
 
 * Will compare name by pattern template [a-z]+ (Pattern.DOTALL flag)
 * Field "date" should present with any string value
@@ -113,7 +114,7 @@ or
     {"name":"imagination","date":"01-01-2015"}
   """)
 ```
-  not match because "date" field template isn't correct ( Comparator will throw ComparisonError)
+  not match because "date" field template isn't correct ( Comparator will throw MatchException)
 
 ==
 ```scala
@@ -127,7 +128,7 @@ or
     {"name":"imagination","date":"01-01-2015"}
   """)
 ```
-  match. ( Comparator won't throw ComparisonError )
+  match. ( Comparator won't throw MatchException )
 
 * Field "date" should present and it should match pattern \\d{4}-\\d{2}-\\d{2})
 
@@ -223,7 +224,9 @@ Comparator.strict.compare(
         "13" : "p(y-m-d)",
         "14" : "p(d-m-y)",
         "15" : "p(y/m/d)",
-        "16" : "p(d/m/y)"
+        "16" : "p(d/m/y)",
+        "17" : "p(notEmpty)",
+        "18" : "p(datetime)"
       } ]
     }
   """,
@@ -245,7 +248,9 @@ Comparator.strict.compare(
         "13" : "2015-11-12",
         "14" : "12-11-2015",
         "15" : "2015/11/12",
-        "16" : "12/11/2015"
+        "16" : "12/11/2015",
+        "17" : "1",
+        "18" : "2016-05-23 15:33:20"
       } ]
     }
   """)

@@ -2,9 +2,10 @@ package org.imagination.comparator
 
 import java.util.regex.Pattern
 
-case class StringComparator(mode: Mode)(implicit alias: Alias) extends ObjectComparator[String] with ErrorHelper {
+case class StringComparator(mode: Mode)(implicit alias: Alias = AliasMap()) extends ObjectComparator[String] with ErrorHelper {
 
-  def compare(expected: String, actual: String) {
+  @throws[MatchException]
+  def compare(expected: String, actual: String): Unit = {
     if (expected != actual) {
 
       extractAction(expected) match {

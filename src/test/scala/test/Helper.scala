@@ -30,12 +30,10 @@ trait Helper {
     try s.mkString finally s.close()
   }
 
-  def compare(expected: String, actual: String):Unit = {
-    val e = toString(file(expected))
-    val a = toString(file(actual))
-
-    Comparator(mode).compare(e, a)
-  }
+  def compare(expected: String, actual: String): Unit = Comparator(mode).compare(
+    toString(file(expected)),
+    toString(file(actual))
+  )
 
   def compareJson(path: String):Unit = compareType("json", path)
   def compareXml(path: String):Unit = compareType("xml", path)
@@ -43,25 +41,25 @@ trait Helper {
   def compareTxt(path: String):Unit = compareType("txt", path)
 
   def errorJson(n: Int, msg: String):Unit = test(s"Json error $n") {
-    intercept[ComparisonError] {
+    intercept[MatchException] {
       compareJson(s"/error/$n/")
     }.msg shouldBe msg
   }
 
   def errorXml(n: Int, msg: String):Unit = test(s"Xml error $n") {
-    intercept[ComparisonError] {
+    intercept[MatchException] {
       compareXml(s"/error/$n/")
     }.msg shouldBe msg
   }
 
   def errorCss(n: Int, msg: String):Unit = test(s"Css error $n") {
-    intercept[ComparisonError] {
+    intercept[MatchException] {
       compareCss(s"/error/$n/")
     }.msg shouldBe msg
   }
 
   def errorTxt(n: Int, msg: String):Unit = test(s"Txt error $n") {
-    intercept[ComparisonError] {
+    intercept[MatchException] {
       compareTxt(s"/error/$n/")
     }.msg shouldBe msg
   }

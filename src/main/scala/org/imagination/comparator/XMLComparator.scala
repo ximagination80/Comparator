@@ -7,6 +7,7 @@ import scala.language.implicitConversions
 case class XMLComparator(mode: Mode = Strict)(implicit alias: Alias = AliasMap())
   extends ObjectComparator[Node] with ErrorHelper {
 
+  @throws[MatchException]
   override def compare(expected: Node, actual: Node) = {
     raise(expected.getNodeName != actual.getNodeName,
       s"Expected node name ${expected.getNodeName} but was ${actual.getNodeName}")

@@ -10,7 +10,7 @@ import scala.collection.JavaConversions._
 case class JsonComparator(mode:Mode = Strict)(implicit alias:Alias = AliasMap())
   extends ObjectComparator[JsonNode] with ErrorHelper {
 
-  @throws[ComparisonError]
+  @throws[MatchException]
   override def compare(expected: JsonNode, actual: JsonNode) {
     raise(expected.getNodeType != actual.getNodeType,
       s"Expected ${expected.getNodeType} but was ${actual.getNodeType}")

@@ -2,7 +2,7 @@ organization := "org.imagination"
 
 name := "Comparator"
 
-version := "1.0"
+version := "1.1"
 
 scalaVersion := "2.11.7"
 
@@ -16,9 +16,12 @@ licenses := Seq("The Apache License, Version 2.0" -> url("http://www.apache.org/
 
 homepage := Some(url("https://github.com/ximagination80/Comparator"))
 
+val fastXMLVersion =  "2.8.3"
+
 libraryDependencies ++= Seq(
-  "com.fasterxml.jackson.core" % "jackson-core" % "2.6.3",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.3"
+  "com.fasterxml.jackson.core" % "jackson-core" % fastXMLVersion,
+  "com.fasterxml.jackson.core" % "jackson-databind" % fastXMLVersion,
+  "com.google.code.gson" % "gson" % "2.7"
 )
 
 libraryDependencies ++= Seq(

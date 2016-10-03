@@ -25,7 +25,10 @@ trait AliasDefault {
     "y-m-d" -> `y-m-d`(),
     "d-m-y" -> `d-m-y`(),
     "y/m/d" -> `y/m/d`(),
-    "d/m/y" -> `d/m/y`()
+    "d/m/y" -> `d/m/y`(),
+
+    "notEmpty" -> `notEmpty`(),
+    "datetime" -> `datetime`()
   )
 
   def any()        = ".*".p(DOTALL)
@@ -102,6 +105,10 @@ trait AliasDefault {
       + "(\\/(?:(?:[" + GOOD_IRI_CHAR + "\\;\\/\\?\\:\\@\\&\\=\\#\\~"
       + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?"
       + "(?:\\b|$)").p
+
+  def notEmpty() = ".+".p
+
+  def datetime() = "\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:.\\d)?".p
 }
 
 object AliasDefault extends AliasDefault

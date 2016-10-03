@@ -32,7 +32,9 @@ class DefaultAliasesTest extends FunSuite with Matchers{
     `y-m-d`(),
     `d-m-y`(),
     `y/m/d`(),
-    `d/m/y`()).foreach { e =>
+    `d/m/y`(),
+    notEmpty(),
+    datetime()).foreach { e =>
 
     val pattern = featuresMap.getOrElse(e.key,
       throw new RuntimeException(s"Object with key [${e.key}}] not found in default aliases map"))
@@ -184,4 +186,12 @@ class DefaultAliasesTest extends FunSuite with Matchers{
   def `d/m/y`() = Regexp("d/m/y",
     Seq("01/11/2015","31/12/2015","31/12/9999","01/01/1234","31/12/1234"),
     Seq("1/11/2015","32/11/2015","30/13/2015","31/12/99999","31/12/00000"))
+
+  def notEmpty() = Regexp("notEmpty",
+    Seq("1","asdui12u89u8908zx98c889..2.3132.';[^#&!*@^#&!)_(#_)(_)"),
+    Seq(""))
+
+  def datetime() = Regexp("datetime",
+    Seq("2016-05-23 15:33:20.0", "2016-05-23 15:33:20"),
+    Seq("2016-05-23", "15:33:20 2016-05-23", "15:33:20"))
 }
