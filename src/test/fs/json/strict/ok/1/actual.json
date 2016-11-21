@@ -20,6 +20,7 @@
     "expiration_date" : "",
     "planned_space" : 100,
     "monthly_charge" : 2000.50,
-    "overused_charge" : 50.99
+    "overused_charge" : 50.99,
+    "version": 1468620756554
   }
 }
