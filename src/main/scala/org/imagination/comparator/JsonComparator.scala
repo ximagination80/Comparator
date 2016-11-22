@@ -12,28 +12,29 @@ case class JsonComparator(mode:Mode = Strict)(implicit alias:Alias = AliasMap())
 
   @throws[MatchException]
   override def compare(expected: JsonNode, actual: JsonNode) {
-    raise(expected.getNodeType != actual.getNodeType,
-      s"Expected ${expected.getNodeType} but was ${actual.getNodeType}")
-
-    (expected.getNodeType: @unchecked) match {
-      case BOOLEAN =>
+    (expected.getNodeType, actual.getNodeType) match {
+      case (BOOLEAN, BOOLEAN) =>
         raise(expected.asBoolean() != actual.asBoolean(),
           s"Property ${expected.asText()} is not equal to ${actual.asText()}")
 
-      case NUMBER =>
+      case (NUMBER, NUMBER) =>
         raise(expected.asDouble() != actual.asDouble(),
           s"Property ${expected.asText()} is not equal to ${actual.asText()}")
 
-      case STRING =>
+      case (STRING, _) =>
         StringComparator(mode).compare(expected.asText(), actual.asText())
 
-      case ARRAY =>
+      case (ARRAY, ARRAY) =>
         compareElements(expected.elements().toList, actual.elements().toList)
 
-      case OBJECT =>
+      case (OBJECT, OBJECT) =>
         compareFields(expected.fields().toList, actual.fields().toList)
 
-      case NULL => // equals
+      case (NULL, NULL) => // equals
+
+      case _ =>
+        raise(expected.getNodeType != actual.getNodeType,
+          s"Expected ${expected.getNodeType} but was ${actual.getNodeType}")
     }
   }
 
