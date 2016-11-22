@@ -21,7 +21,7 @@ case class JsonComparator(mode:Mode = Strict)(implicit alias:Alias = AliasMap())
         raise(expected.asDouble() != actual.asDouble(),
           s"Property ${expected.asText()} is not equal to ${actual.asText()}")
 
-      case (STRING, _) =>
+      case (STRING, STRING) | (STRING, NUMBER) | (STRING, BOOLEAN)=>
         StringComparator(mode).compare(expected.asText(), actual.asText())
 
       case (ARRAY, ARRAY) =>
