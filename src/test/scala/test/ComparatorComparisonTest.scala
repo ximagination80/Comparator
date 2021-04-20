@@ -5,9 +5,11 @@ import java.util.regex.Pattern
 
 import org.imagination
 import org.imagination.comparator.{AliasMap, Comparator, Lenient, Strict}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
+import org.scalatest.funsuite.AnyFunSuite
 
-class ComparatorComparisonTest extends FunSuite with Matchers {
+class ComparatorComparisonTest extends AnyFunSuite with Matchers {
 
   test("Field Comparator.strict == Strict") {
     Comparator.strict.mode shouldBe Strict

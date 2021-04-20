@@ -1,9 +1,11 @@
 package test
 
 import org.imagination.comparator.{AliasMap, AliasDefault}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
+import org.scalatest.funsuite.AnyFunSuite
 
-class DefaultAliasesTest extends FunSuite with Matchers{
+class DefaultAliasesTest extends AnyFunSuite with Matchers {
 
   lazy val featuresMap = AliasDefault.aliases
 

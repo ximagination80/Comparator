@@ -1,9 +1,11 @@
 package test.strict
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
+import org.scalatest.funsuite.AnyFunSuite
 import test.Helper
 
-class TxtTestStrict extends FunSuite with Matchers with Helper {
+class TxtTestStrict extends AnyFunSuite with Matchers with Helper {
   useStrict()
 
   Seq(

@@ -81,8 +81,8 @@ object JavaComparator {
   def strict(map: JMap[String, Pattern]) =Comparator(mode = Strict)(toAlias(map))
 
   def toAlias(map: JMap[String, Pattern]): AliasMap = {
-    import scala.collection.JavaConversions._
-    map.toMap.foldLeft(AliasMap())((map, a) => map.add(a._1, a._2))
+    import scala.jdk.CollectionConverters._
+    map.asScala.toMap.foldLeft(AliasMap())((map, a) => map.add(a._1, a._2))
   }
 }
 

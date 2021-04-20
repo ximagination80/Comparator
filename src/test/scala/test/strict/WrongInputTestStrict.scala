@@ -1,9 +1,11 @@
 package test.strict
 
 import org.imagination.comparator.{MatchException, Strict, Comparator}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
+import matchers.should._
 
-class WrongInputTestStrict extends FunSuite with Matchers {
+class WrongInputTestStrict extends AnyFunSuite with Matchers {
 
   def strict:Comparator = Comparator(mode = Strict)
 

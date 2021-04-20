@@ -21,14 +21,14 @@ case class XMLComparator(mode: Mode = Strict)(implicit alias: Alias = AliasMap()
       case false => mode.onStrict(raise(actual.hasAttributes,
         s"Additional attributes found in actual document for node ${actual.getNodeName}"))
     }
-    
+
     StringComparator(mode).compare(expected.getNodeValue, actual.getNodeValue)
 
     expected.hasChildNodes match {
       case true=>
         raise(!actual.hasChildNodes, "Child nodes not found")
         compareNodes(expected.getChildNodes, actual.getChildNodes)
-        
+
       case false=>
         mode.onStrict(raise(actual.hasChildNodes, "Additional child nodes found"))
     }
