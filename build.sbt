@@ -2,13 +2,13 @@ organization := "org.imagination"
 
 name := "Comparator"
 
-version := "1.1"
+version := "1.2"
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.13.5"
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-encoding", "UTF-8")
 
-crossScalaVersions := Seq("2.11.7","2.10.5")
+crossScalaVersions := Seq("2.13.5")
 
 description := """a json/xml tree assertion tool """
 
@@ -16,25 +16,17 @@ licenses := Seq("The Apache License, Version 2.0" -> url("http://www.apache.org/
 
 homepage := Some(url("https://github.com/ximagination80/Comparator"))
 
-val fastXMLVersion =  "2.8.3"
+val fastXMLVersion =  "2.12.3"
 
 libraryDependencies ++= Seq(
   "com.fasterxml.jackson.core" % "jackson-core" % fastXMLVersion,
   "com.fasterxml.jackson.core" % "jackson-databind" % fastXMLVersion,
-  "com.google.code.gson" % "gson" % "2.7"
+  "com.google.code.gson" % "gson" % "2.8.6"
 )
 
 libraryDependencies ++= Seq(
-  "org.scalatest" % "scalatest_2.11" % "2.2.4"
+  "org.scalatest" % "scalatest_2.13" % "3.2.7"
 ).map(_ % Test)
-
-coverageEnabled.in(Test, test) := true
-
-coverageMinimum := 95
-
-coverageFailOnMinimum := true
-
-parallelExecution in Test := false
 
 publishMavenStyle := true
 

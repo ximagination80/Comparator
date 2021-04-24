@@ -7,8 +7,8 @@ case class StringLinesComparator(mode: Mode)(implicit alias: Alias = AliasMap())
 
   @throws[MatchException]
   def compare(expected: String, actual: String): Unit = {
-    val expectedLines = expected.lines.toList
-    val actualLines = actual.lines.toList
+    val expectedLines = expected.linesIterator.toList
+    val actualLines = actual.linesIterator.toList
 
     if (expectedLines.size != actualLines.size) {
       raise("Content doesn't match")

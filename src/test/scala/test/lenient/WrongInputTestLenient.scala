@@ -1,9 +1,11 @@
 package test.lenient
 
 import org.imagination.comparator.{MatchException, Lenient, Comparator}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
+import org.scalatest.funsuite.AnyFunSuite
 
-class WrongInputTestLenient extends FunSuite with Matchers {
+class WrongInputTestLenient extends AnyFunSuite with Matchers {
 
    def lenient:Comparator = Comparator(mode = Lenient)
 

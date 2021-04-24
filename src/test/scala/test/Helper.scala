@@ -3,13 +3,15 @@ package test
 import java.io.File
 
 import org.imagination.comparator._
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
 
 import scala.io.Source
+import org.scalatest.funsuite.AnyFunSuite
 
 trait Helper {
 
-  this: FunSuite with Matchers =>
+  this: AnyFunSuite with Matchers =>
 
   def prepareAliases(): Alias =
     AliasMap().add("date", "\\d{4}-\\d{2}-\\d{2}")
@@ -41,7 +43,7 @@ trait Helper {
   def compareTxt(path: String):Unit = compareType("txt", path)
 
   def errorJson(n: Int, msg: String):Unit = test(s"Json error $n") {
-    intercept[MatchException] {
+    val actual = intercept[MatchException] {
       compareJson(s"/error/$n/")
     }.msg shouldBe msg
   }

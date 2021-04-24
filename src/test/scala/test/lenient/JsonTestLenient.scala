@@ -1,9 +1,11 @@
 package test.lenient
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest._
+import matchers.should._
 import test.Helper
+import org.scalatest.funsuite.AnyFunSuite
 
-class JsonTestLenient extends FunSuite with Matchers with Helper {
+class JsonTestLenient extends AnyFunSuite with Matchers with Helper {
    useLenient()
 
    Seq(

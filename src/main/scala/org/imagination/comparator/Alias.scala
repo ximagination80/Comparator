@@ -19,7 +19,7 @@ case class AliasMap() extends Alias {
     map(alias) = pattern
     this
   }
-  
-  def get(alias: String) = 
+
+  def get(alias: String) =
     map.get(alias)
 }
